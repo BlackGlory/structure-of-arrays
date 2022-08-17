@@ -29,7 +29,7 @@ export class StructureOfArrays<T extends Structure> {
   readonly arrays: StructureInternalArrays<T>
 
   private keyToArray: StructureArrays<T>
-  private collectedIndexes = new SparseSet()
+  private deletedIndexes = new SparseSet()
   private keys: string[]
   private deletableKeys: string[]
 
@@ -68,9 +68,44 @@ export class StructureOfArrays<T extends Structure> {
   * indexes(): Iterable<number> {
     const length = first(Object.values(this.keyToArray))!.length
     for (let index = 0; index < length; index++) {
-      if (!this.collectedIndexes.has(index)) {
+      if (!this.deletedIndexes.has(index)) {
         yield index
       }
+    }
+  }
+
+  has(index: number): boolean {
+    if (this.deletedIndexes.has(index)) {
+      return false
+    } else {
+      const array = first(Object.values(this.keyToArray))
+      return index < array.length
+    }
+  }
+
+  /**
+   * @throws {RangeError}
+   */
+  get<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]> {
+    const array = this.keyToArray[key]
+    const value = get(array, index)
+    if (index < array.length) {
+      if (this.deletedIndexes.has(index)) {
+        throw new RangeError('index has been deleted')
+      } else {
+        return value as unknown as PrimitiveOfType<T[U]>
+      }
+    } else {
+      throw new RangeError('index is out of bounds')
+    }
+  }
+
+  tryGet<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]> | undefined {
+    try {
+      return this.get(index, key)
+    } catch (e) {
+      if (e instanceof RangeError) return undefined
+      throw e
     }
   }
 
@@ -82,7 +117,7 @@ export class StructureOfArrays<T extends Structure> {
         const collectedIndex = collectedIndexes[i]
         const array = this.keyToArray[key]
         set(array, collectedIndex, value)
-        this.collectedIndexes.remove(collectedIndex)
+        this.deletedIndexes.remove(collectedIndex)
       }
     }
 
@@ -123,36 +158,44 @@ export class StructureOfArrays<T extends Structure> {
     ]
   }
 
+  /**
+   * @throws {RangeError}
+   */
   set<U extends keyof T>(
     index: number
   , key: U
   , value: PrimitiveOfTypeArray<StructureArrays<T>[U]>
   ): void {
     const array = this.keyToArray[key]
-    if (index < array.length && !this.collectedIndexes.has(index)) {
-      set(array, index, value)
+    if (index < array.length) {
+      if (this.deletedIndexes.has(index)) {
+        throw new RangeError('index has been deleted')
+      } else {
+        set(array, index, value)
+      }
     } else {
       throw new RangeError('index is out of bounds')
     }
   }
 
-  get<U extends keyof T>(
+  trySet<U extends keyof T>(
     index: number
   , key: U
-  ): PrimitiveOfType<T[U]> | undefined {
-    const array = this.keyToArray[key]
-    const value = get(array, index)
-    if (index < array.length && !this.collectedIndexes.has(index)) {
-      return value as unknown as PrimitiveOfType<T[U]>
-    } else {
-      return undefined
+  , value: PrimitiveOfTypeArray<StructureArrays<T>[U]>
+  ): boolean {
+    try {
+      this.set(index, key, value)
+      return true
+    } catch (e) {
+      if (e instanceof RangeError) return false
+      throw e
     }
   }
 
   // 此方法只实现了软删除, 将string[]和boolean[]类型的对应位置删除.
   // 硬删除最多只能回收位于数组末尾的连续项目, 且数组resize可能反而带来性能损失, 因此不实现硬删除.
   delete(index: number): void {
-    this.collectedIndexes.add(index)
+    this.deletedIndexes.add(index)
     this.deletableKeys.forEach(key => {
       // delete数组最后一个项目不会使数组length缩短
       delete (this.keyToArray[key] as unknown[])[index]
@@ -160,12 +203,10 @@ export class StructureOfArrays<T extends Structure> {
   }
 
   private findCollectedIndexes(count: number): number[] {
-    return toArray(take(this.collectedIndexes, count))
+    return toArray(take(this.deletedIndexes, count))
   }
 
-  private getInternalArray<U extends keyof T>(
-    key: U
-  ): InternalArrayOfType<T[U]> {
+  private getInternalArray<U extends keyof T>(key: U): InternalArrayOfType<T[U]> {
     const array = this.keyToArray[key]
     if (array instanceof DynamicTypedArray) {
       return array.internalTypedArray as InternalArrayOfType<T[U]>

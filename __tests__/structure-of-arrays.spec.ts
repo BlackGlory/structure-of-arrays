@@ -137,6 +137,135 @@ describe('StructureOfArrays', () => {
     })
   })
 
+  describe('has', () => {
+    test('index exists', () => {
+      const soa = new StructureOfArrays({
+        integer: int8
+      , boolean: boolean
+      , string: string
+      })
+      soa.add({
+        integer: 1
+      , boolean: true
+      , string: 'string'
+      })
+
+      const result = soa.has(0)
+
+      expect(result).toBe(true)
+    })
+
+    describe('index does not exist', () => {
+      test('index has been deleted', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+        soa.add({
+          integer: 1
+        , boolean: true
+        , string: 'string'
+        })
+        soa.delete(0)
+
+        const result = soa.has(0)
+
+        expect(result).toBe(false)
+      })
+
+      test('index is out of bounds', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+
+        const result = soa.has(0)
+
+        expect(result).toBe(false)
+      })
+    })
+  })
+
+  describe('get', () => {
+    test('index exists', () => {
+      const soa = new StructureOfArrays({
+        integer: int8
+      , boolean: boolean
+      , string: string
+      })
+      soa.add({
+        integer: 1
+      , boolean: true
+      , string: 'string'
+      })
+
+      const result1 = soa.get(0, 'integer')
+      const result2 = soa.get(0, 'boolean')
+      const result3 = soa.get(0, 'string')
+
+      expect(result1).toBe(1)
+      expect(result2).toBe(true)
+      expect(result3).toBe('string')
+    })
+
+    test('index does not exist', () => {
+      const soa = new StructureOfArrays({
+        integer: int8
+      , boolean: boolean
+      , string: string
+      })
+
+      const err1 = getError(() => soa.get(0, 'integer'))
+      const err2 = getError(() => soa.get(0, 'boolean'))
+      const err3 = getError(() => soa.get(0, 'string'))
+
+      expect(err1).toBeInstanceOf(RangeError)
+      expect(err2).toBeInstanceOf(RangeError)
+      expect(err3).toBeInstanceOf(RangeError)
+    })
+  })
+
+  describe('tryGet', () => {
+    test('index exists', () => {
+      const soa = new StructureOfArrays({
+        integer: int8
+      , boolean: boolean
+      , string: string
+      })
+      soa.add({
+        integer: 1
+      , boolean: true
+      , string: 'string'
+      })
+
+      const result1 = soa.tryGet(0, 'integer')
+      const result2 = soa.tryGet(0, 'boolean')
+      const result3 = soa.tryGet(0, 'string')
+
+      expect(result1).toBe(1)
+      expect(result2).toBe(true)
+      expect(result3).toBe('string')
+    })
+
+    test('index does not exist', () => {
+      const soa = new StructureOfArrays({
+        integer: int8
+      , boolean: boolean
+      , string: string
+      })
+
+      const result1 = soa.tryGet(0, 'integer')
+      const result2 = soa.tryGet(0, 'boolean')
+      const result3 = soa.tryGet(0, 'string')
+
+      expect(result1).toBe(undefined)
+      expect(result2).toBe(undefined)
+      expect(result3).toBe(undefined)
+    })
+  })
+
   describe('add', () => {
     test('SOA is empty', () => {
       const soa = new StructureOfArrays({
@@ -250,13 +379,11 @@ describe('StructureOfArrays', () => {
       expect(result1).toBeInstanceOf(RangeError)
       expect(result2).toBeInstanceOf(RangeError)
       expect(result3).toBeInstanceOf(RangeError)
-      expect(soa.get(0, 'integer')).toBe(undefined)
-      expect(soa.get(0, 'boolean')).toBe(undefined)
-      expect(soa.get(0, 'string')).toBe(undefined)
+      expect(soa.has(0)).toBe(false)
     })
   })
 
-  describe('get', () => {
+  describe('trySet', () => {
     test('index exists', () => {
       const soa = new StructureOfArrays({
         integer: int8
@@ -264,18 +391,21 @@ describe('StructureOfArrays', () => {
       , string: string
       })
       soa.add({
-        integer: 1
-      , boolean: true
-      , string: 'string'
+        integer: 0
+      , boolean: false
+      , string: ''
       })
 
-      const result1 = soa.get(0, 'integer')
-      const result2 = soa.get(0, 'boolean')
-      const result3 = soa.get(0, 'string')
+      const result1 = soa.trySet(0, 'integer', 1)
+      const result2 = soa.trySet(0, 'boolean', true)
+      const result3 = soa.trySet(0, 'string', 'string')
 
-      expect(result1).toBe(1)
+      expect(result1).toBe(true)
       expect(result2).toBe(true)
-      expect(result3).toBe('string')
+      expect(result3).toBe(true)
+      expect(soa.get(0, 'integer')).toBe(1)
+      expect(soa.get(0, 'boolean')).toBe(true)
+      expect(soa.get(0, 'string')).toBe('string')
     })
 
     test('index does not exist', () => {
@@ -285,13 +415,15 @@ describe('StructureOfArrays', () => {
       , string: string
       })
 
-      const result1 = soa.get(0, 'integer')
-      const result2 = soa.get(0, 'boolean')
-      const result3 = soa.get(0, 'string')
+      const result1 = soa.trySet(0, 'integer', 1)
+      const result2 = soa.trySet(0, 'boolean', true)
+      const result3 = soa.trySet(0, 'string', 'string')
 
-      expect(result1).toBe(undefined)
-      expect(result2).toBe(undefined)
-      expect(result3).toBe(undefined)
+      expect(toArray(soa.indexes())).toStrictEqual([])
+      expect(result1).toBe(false)
+      expect(result2).toBe(false)
+      expect(result3).toBe(false)
+      expect(soa.has(0)).toBe(false)
     })
   })
 
@@ -311,9 +443,7 @@ describe('StructureOfArrays', () => {
       soa.delete(0)
 
       expect(toArray(soa.indexes())).toStrictEqual([])
-      expect(soa.get(0, 'integer')).toBe(undefined)
-      expect(soa.get(0, 'boolean')).toBe(undefined)
-      expect(soa.get(0, 'string')).toBe(undefined)
+      expect(soa.has(0)).toBe(false)
     })
 
     test('index does not exist', () => {
@@ -326,9 +456,7 @@ describe('StructureOfArrays', () => {
       soa.delete(0)
 
       expect(toArray(soa.indexes())).toStrictEqual([])
-      expect(soa.get(0, 'integer')).toBe(undefined)
-      expect(soa.get(0, 'boolean')).toBe(undefined)
-      expect(soa.get(0, 'string')).toBe(undefined)
+      expect(soa.has(0)).toBe(false)
     })
   })
 })

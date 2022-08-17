@@ -97,22 +97,39 @@ type TypeArray =
 ### StructureOfArrays
 ```ts
 class StructureOfArrays<T extends Stucture> {
+  /**
+   * Note that `StructureOfArrays` cannot respond to any operations on the internal arrays,
+   * you must make sure that indexes being accessed are within bounds and not deleted.
+   */
   readonly arrays: StructureInternalArrays<T>
 
   indexes(): Iterable<number>
 
+  has(index: number): boolean
+
+  /**
+   * @throws {RangeError}
+   */
+  get<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]>
+
+  tryGet<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]> | undefined
+
   add(...structures: Array<StructurePrimitive<T>>): number[]
 
+  /**
+   * @throws {RangeError}
+   */
   set<U extends keyof T>(
     index: number
   , key: U
   , value: PrimitiveOfTypeArray<StructureArrays<T>[U]>
   ): void
 
-  get<U extends keyof T>(
+  trySet<U extends keyof T>(
     index: number
   , key: U
-  ): PrimitiveOfType<T[U]> | undefined
+  , value: PrimitiveOfTypeArray<StructureArrays<T>[U]>
+  ): boolean
 
   delete(index: number): void
 }
