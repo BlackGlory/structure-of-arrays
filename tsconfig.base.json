@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2019"
+  , "module": "CommonJS"
+  , "esModuleInterop": true
+  , "strict": true
+  , "noUnusedLocals": false
+  , "noUnusedParameters": false
+  , "baseUrl": "."
+  , "paths": {
+      "@src/*": ["src/*"]
+    , "@memoizes": ["src/memoizes/index"]
+    , "@memoizes/*": ["src/memoizes/*"]
+    , "@test/*": ["__tests__/*"]
+    }
+  }
+}
