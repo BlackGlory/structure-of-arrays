@@ -1,4 +1,8 @@
-export { StructureOfArrays } from './structure-of-arrays'
+export {
+  StructureOfArrays
+, Structure
+, StructurePrimitive
+} from './structure-of-arrays'
 export {
   int8
 , uint8

@@ -11,9 +11,9 @@ import {
 } from './types'
 import { create, get, set, push } from './type-array-utils'
 
-type Structure = Record<string, Type>
+export type Structure = Record<string, Type>
 
-type StructurePrimitive<T extends Structure> = {
+export type StructurePrimitive<T extends Structure> = {
   [Key in keyof T]: PrimitiveOfType<T[Key]>
 }
 
