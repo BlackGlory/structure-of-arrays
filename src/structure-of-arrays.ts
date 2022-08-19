@@ -1,5 +1,5 @@
-import { go, assert, isntEmptyObject } from '@blackglory/prelude'
-import { first, take, toArray } from 'iterable-operator'
+import { go } from '@blackglory/prelude'
+import { take, toArray } from 'iterable-operator'
 import { SparseSet, DynamicTypedArray } from '@blackglory/structures'
 import {
   Primitive
@@ -29,13 +29,12 @@ export class StructureOfArrays<T extends Structure> {
   readonly arrays: StructureInternalArrays<T>
 
   private keyToArray: StructureArrays<T>
-  private deletedIndexes = new SparseSet()
+  private recycledIndexes = new SparseSet()
   private keys: string[]
   private deletableKeys: string[]
+  private length: number = 0
 
   constructor(structure: T) {
-    assert(isntEmptyObject(structure), 'structure should contain at least one member')
-
     const keys = Object.keys(structure)
     const deleteableKeys: string[] = []
     const keyToArray: Record<string, unknown> = {}
@@ -66,20 +65,18 @@ export class StructureOfArrays<T extends Structure> {
   }
 
   * indexes(): Iterable<number> {
-    const length = first(Object.values(this.keyToArray))!.length
-    for (let index = 0; index < length; index++) {
-      if (!this.deletedIndexes.has(index)) {
+    for (let index = 0, length = this.length; index < length; index++) {
+      if (!this.recycledIndexes.has(index)) {
         yield index
       }
     }
   }
 
   has(index: number): boolean {
-    if (this.deletedIndexes.has(index)) {
+    if (this.recycledIndexes.has(index)) {
       return false
     } else {
-      const array = first(Object.values(this.keyToArray))
-      return index < array.length
+      return index < this.length
     }
   }
 
@@ -90,7 +87,7 @@ export class StructureOfArrays<T extends Structure> {
     const array = this.keyToArray[key]
     const value = get(array, index)
     if (index < array.length) {
-      if (this.deletedIndexes.has(index)) {
+      if (this.recycledIndexes.has(index)) {
         throw new RangeError('index has been deleted')
       } else {
         return value as unknown as PrimitiveOfType<T[U]>
@@ -117,8 +114,8 @@ export class StructureOfArrays<T extends Structure> {
         const collectedIndex = collectedIndexes[i]
         const array = this.keyToArray[key]
         set(array, collectedIndex, value)
-        this.deletedIndexes.remove(collectedIndex)
       }
+      this.recycledIndexes.remove(collectedIndexes[i])
     }
 
     const remaining = structures.length - collectedIndexes.length
@@ -133,6 +130,7 @@ export class StructureOfArrays<T extends Structure> {
         const value = structures[i][key]
         keyToValues[key].push(value)
       }
+      this.length++
     }
     this.keys.forEach(key => {
       push(
@@ -147,11 +145,11 @@ export class StructureOfArrays<T extends Structure> {
       )
     })
 
-    const arrayLength = this.keyToArray[first(this.keys)!].length
+    const length = this.length
     return [
       ...collectedIndexes
     , ...go(function* (): Iterable<number> {
-        for (let i = Math.max(arrayLength - remaining, 0); i < arrayLength; i++) {
+        for (let i = Math.max(length - remaining, 0); i < length; i++) {
           yield i
         }
       })
@@ -168,7 +166,7 @@ export class StructureOfArrays<T extends Structure> {
   ): void {
     const array = this.keyToArray[key]
     if (index < array.length) {
-      if (this.deletedIndexes.has(index)) {
+      if (this.recycledIndexes.has(index)) {
         throw new RangeError('index has been deleted')
       } else {
         set(array, index, value)
@@ -195,7 +193,7 @@ export class StructureOfArrays<T extends Structure> {
   // 此方法只实现了软删除, 将string[]和boolean[]类型的对应位置删除.
   // 硬删除最多只能回收位于数组末尾的连续项目, 且数组resize可能反而带来性能损失, 因此不实现硬删除.
   delete(index: number): void {
-    this.deletedIndexes.add(index)
+    this.recycledIndexes.add(index)
     this.deletableKeys.forEach(key => {
       // delete数组最后一个项目不会使数组length缩短
       delete (this.keyToArray[key] as unknown[])[index]
@@ -203,7 +201,7 @@ export class StructureOfArrays<T extends Structure> {
   }
 
   private findCollectedIndexes(count: number): number[] {
-    return toArray(take(this.deletedIndexes, count))
+    return toArray(take(this.recycledIndexes, count))
   }
 
   private getInternalArray<U extends keyof T>(key: U): InternalArrayOfType<T[U]> {

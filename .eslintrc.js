@@ -13,5 +13,6 @@ module.exports = {
   , '@typescript-eslint/ban-types': 'off'
   , '@typescript-eslint/ban-ts-comment': 'off'
   , '@typescript-eslint/no-extra-semi': 'off'
+  , '@typescript-eslint/no-inferrable-types': 'off'
   }
 }

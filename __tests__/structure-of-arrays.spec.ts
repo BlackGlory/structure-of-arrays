@@ -5,14 +5,22 @@ import { getError } from 'return-style'
 import '@blackglory/jest-matchers'
 
 describe('StructureOfArrays', () => {
-  test('create', () => {
-    const soa = new StructureOfArrays({
-      integer: int8
-    , boolean: boolean
-    , string: string
+  describe('create', () => {
+    test('non-empty structure', () => {
+      const soa = new StructureOfArrays({
+        integer: int8
+      , boolean: boolean
+      , string: string
+      })
+
+      expect(soa).toBeInstanceOf(StructureOfArrays)
     })
 
-    expect(soa).toBeInstanceOf(StructureOfArrays)
+    test('empty structure', () => {
+      const soa = new StructureOfArrays({})
+
+      expect(soa).toBeInstanceOf(StructureOfArrays)
+    })
   })
 
   describe('arrays', () => {
@@ -69,94 +77,116 @@ describe('StructureOfArrays', () => {
   })
 
   describe('indexes', () => {
-    test('SOA is empty', () => {
-      const soa = new StructureOfArrays({
-        integer: int8
-      , boolean: boolean
-      , string: string
+    describe('SOA is empty', () => {
+      test('non-empty structure', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+
+        const iter = soa.indexes()
+        const arr = toArray(iter)
+
+        expect(iter).toBeIterable()
+        expect(arr).toStrictEqual([])
       })
 
-      const iter = soa.indexes()
-      const arr = toArray(iter)
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
 
-      expect(iter).toBeIterable()
-      expect(arr).toStrictEqual([])
+        const iter = soa.indexes()
+        const arr = toArray(iter)
+
+        expect(iter).toBeIterable()
+        expect(arr).toStrictEqual([])
+      })
     })
 
-    test('SOA has deleted items', () => {
-      const soa = new StructureOfArrays({
-        integer: int8
-      , boolean: boolean
-      , string: string
+    describe('SOA has deleted items', () => {
+      test('non-empty structure', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+        soa.add(
+          {
+            integer: 0
+          , boolean: false
+          , string: ''
+          }
+        , {
+            integer: 1
+          , boolean: true
+          , string: 'string'
+          }
+        )
+        soa.delete(0)
+
+        const iter = soa.indexes()
+        const arr = toArray(iter)
+
+        expect(iter).toBeIterable()
+        expect(arr).toStrictEqual([1])
       })
-      soa.add(
-        {
-          integer: 0
-        , boolean: false
-        , string: ''
-        }
-      , {
-          integer: 1
-        , boolean: true
-        , string: 'string'
-        }
-      )
-      soa.delete(0)
 
-      const iter = soa.indexes()
-      const arr = toArray(iter)
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
+        soa.add({}, {})
+        soa.delete(0)
 
-      expect(iter).toBeIterable()
-      expect(arr).toStrictEqual([1])
+        const iter = soa.indexes()
+        const arr = toArray(iter)
+
+        expect(iter).toBeIterable()
+        expect(arr).toStrictEqual([1])
+      })
     })
 
-    test('SOA is non-empty', () => {
-      const soa = new StructureOfArrays({
-        integer: int8
-      , boolean: boolean
-      , string: string
+    describe('SOA is non-empty', () => {
+      test('non-empty structure', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+        soa.add(
+          {
+            integer: 0
+          , boolean: false
+          , string: ''
+          }
+        , {
+            integer: 1
+          , boolean: true
+          , string: 'string'
+          }
+        )
+
+        const iter = soa.indexes()
+        const arr = toArray(iter)
+
+        expect(iter).toBeIterable()
+        expect(arr).toStrictEqual([0, 1])
       })
-      soa.add(
-        {
-          integer: 0
-        , boolean: false
-        , string: ''
-        }
-      , {
-          integer: 1
-        , boolean: true
-        , string: 'string'
-        }
-      )
 
-      const iter = soa.indexes()
-      const arr = toArray(iter)
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
+        soa.add({}, {})
 
-      expect(iter).toBeIterable()
-      expect(arr).toStrictEqual([0, 1])
+        const iter = soa.indexes()
+        const arr = toArray(iter)
+
+        expect(iter).toBeIterable()
+        expect(arr).toStrictEqual([0, 1])
+      })
     })
   })
 
   describe('has', () => {
-    test('index exists', () => {
-      const soa = new StructureOfArrays({
-        integer: int8
-      , boolean: boolean
-      , string: string
-      })
-      soa.add({
-        integer: 1
-      , boolean: true
-      , string: 'string'
-      })
-
-      const result = soa.has(0)
-
-      expect(result).toBe(true)
-    })
-
-    describe('index does not exist', () => {
-      test('index has been deleted', () => {
+    describe('index exists', () => {
+      test('non-empty structure', () => {
         const soa = new StructureOfArrays({
           integer: int8
         , boolean: boolean
@@ -167,23 +197,73 @@ describe('StructureOfArrays', () => {
         , boolean: true
         , string: 'string'
         })
-        soa.delete(0)
 
         const result = soa.has(0)
 
-        expect(result).toBe(false)
+        expect(result).toBe(true)
       })
 
-      test('index is out of bounds', () => {
-        const soa = new StructureOfArrays({
-          integer: int8
-        , boolean: boolean
-        , string: string
-        })
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
+        soa.add({})
 
         const result = soa.has(0)
 
-        expect(result).toBe(false)
+        expect(result).toBe(true)
+      })
+    })
+
+    describe('index does not exist', () => {
+      describe('index has been deleted', () => {
+        test('non-empty structure', () => {
+          const soa = new StructureOfArrays({
+            integer: int8
+          , boolean: boolean
+          , string: string
+          })
+          soa.add({
+            integer: 1
+          , boolean: true
+          , string: 'string'
+          })
+          soa.delete(0)
+
+          const result = soa.has(0)
+
+          expect(result).toBe(false)
+        })
+
+        test('empty structure', () => {
+          const soa = new StructureOfArrays({})
+          soa.add({})
+          soa.delete(0)
+
+          const result = soa.has(0)
+
+          expect(result).toBe(false)
+        })
+      })
+
+      describe('index is out of bounds', () => {
+        test('non-empty structure', () => {
+          const soa = new StructureOfArrays({
+            integer: int8
+          , boolean: boolean
+          , string: string
+          })
+
+          const result = soa.has(0)
+
+          expect(result).toBe(false)
+        })
+
+        test('empty structure', () => {
+          const soa = new StructureOfArrays({})
+
+          const result = soa.has(0)
+
+          expect(result).toBe(false)
+        })
       })
     })
   })
@@ -267,78 +347,105 @@ describe('StructureOfArrays', () => {
   })
 
   describe('add', () => {
-    test('SOA is empty', () => {
-      const soa = new StructureOfArrays({
-        integer: int8
-      , boolean: boolean
-      , string: string
+    describe('SOA is empty', () => {
+      test('non-empty structure', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+
+        const result = soa.add(
+          {
+            integer: 0
+          , boolean: false
+          , string: ''
+          }
+        , {
+            integer: 1
+          , boolean: true
+          , string: 'string'
+          }
+        )
+
+        expect(result).toStrictEqual([0, 1])
+        expect(soa.get(0, 'integer')).toBe(0)
+        expect(soa.get(0, 'boolean')).toBe(false)
+        expect(soa.get(0, 'string')).toBe('')
+        expect(soa.get(1, 'integer')).toBe(1)
+        expect(soa.get(1, 'boolean')).toBe(true)
+        expect(soa.get(1, 'string')).toBe('string')
       })
 
-      const result = soa.add(
-        {
-          integer: 0
-        , boolean: false
-        , string: ''
-        }
-      , {
-          integer: 1
-        , boolean: true
-        , string: 'string'
-        }
-      )
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
 
-      expect(result).toStrictEqual([0, 1])
-      expect(soa.get(0, 'integer')).toBe(0)
-      expect(soa.get(0, 'boolean')).toBe(false)
-      expect(soa.get(0, 'string')).toBe('')
-      expect(soa.get(1, 'integer')).toBe(1)
-      expect(soa.get(1, 'boolean')).toBe(true)
-      expect(soa.get(1, 'string')).toBe('string')
+        const result = soa.add({} , {})
+
+        expect(result).toStrictEqual([0, 1])
+        expect(soa.has(0)).toBe(true)
+        expect(soa.has(1)).toBe(true)
+      })
     })
 
-    test('SOA has deleted items', () => {
-      const soa = new StructureOfArrays({
-        integer: int8
-      , boolean: boolean
-      , string: string
+    describe('SOA has deleted items', () => {
+      test('non-empty structure', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+        soa.add(
+          {
+            integer: 0
+          , boolean: false
+          , string: ''
+          }
+        , {
+            integer: 1
+          , boolean: true
+          , string: 'string'
+          }
+        )
+        soa.delete(0)
+
+        const result = soa.add(
+          {
+            integer: 2
+          , boolean: true
+          , string: 'string'
+          }
+        , {
+            integer: 3
+          , boolean: true
+          , string: 'string'
+          }
+        )
+
+        expect(result).toStrictEqual([0, 2])
+        expect(soa.get(0, 'integer')).toBe(2)
+        expect(soa.get(0, 'boolean')).toBe(true)
+        expect(soa.get(0, 'string')).toBe('string')
+        expect(soa.get(1, 'integer')).toBe(1)
+        expect(soa.get(1, 'boolean')).toBe(true)
+        expect(soa.get(1, 'string')).toBe('string')
+        expect(soa.get(2, 'integer')).toBe(3)
+        expect(soa.get(2, 'boolean')).toBe(true)
+        expect(soa.get(2, 'string')).toBe('string')
       })
-      soa.add(
-        {
-          integer: 0
-        , boolean: false
-        , string: ''
-        }
-      , {
-          integer: 1
-        , boolean: true
-        , string: 'string'
-        }
-      )
-      soa.delete(0)
 
-      const result = soa.add(
-        {
-          integer: 2
-        , boolean: true
-        , string: 'string'
-        }
-      , {
-          integer: 3
-        , boolean: true
-        , string: 'string'
-        }
-      )
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
+        soa.add({}, {})
+        soa.delete(0)
 
-      expect(result).toStrictEqual([0, 2])
-      expect(soa.get(0, 'integer')).toBe(2)
-      expect(soa.get(0, 'boolean')).toBe(true)
-      expect(soa.get(0, 'string')).toBe('string')
-      expect(soa.get(1, 'integer')).toBe(1)
-      expect(soa.get(1, 'boolean')).toBe(true)
-      expect(soa.get(1, 'string')).toBe('string')
-      expect(soa.get(2, 'integer')).toBe(3)
-      expect(soa.get(2, 'boolean')).toBe(true)
-      expect(soa.get(2, 'string')).toBe('string')
+        const result = soa.add({}, {})
+
+        expect(result).toStrictEqual([0, 2])
+        expect(soa.has(0)).toBe(true)
+        expect(soa.has(1)).toBe(true)
+        expect(soa.has(2)).toBe(true)
+      })
     })
   })
 
@@ -428,35 +535,58 @@ describe('StructureOfArrays', () => {
   })
 
   describe('delete', () => {
-    test('index exists', () => {
-      const soa = new StructureOfArrays({
-        integer: int8
-      , boolean: boolean
-      , string: string
-      })
-      soa.add({
-        integer: 0
-      , boolean: false
-      , string: ''
+    describe('index exists', () => {
+      test('non-empty structure', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+        soa.add({
+          integer: 0
+        , boolean: false
+        , string: ''
+        })
+
+        soa.delete(0)
+
+        expect(toArray(soa.indexes())).toStrictEqual([])
+        expect(soa.has(0)).toBe(false)
       })
 
-      soa.delete(0)
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
+        soa.add({})
 
-      expect(toArray(soa.indexes())).toStrictEqual([])
-      expect(soa.has(0)).toBe(false)
+        soa.delete(0)
+
+        expect(toArray(soa.indexes())).toStrictEqual([])
+        expect(soa.has(0)).toBe(false)
+      })
     })
 
-    test('index does not exist', () => {
-      const soa = new StructureOfArrays({
-        integer: int8
-      , boolean: boolean
-      , string: string
+    describe('index does not exist', () => {
+      test('non-empty structure', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+
+        soa.delete(0)
+
+        expect(toArray(soa.indexes())).toStrictEqual([])
+        expect(soa.has(0)).toBe(false)
       })
 
-      soa.delete(0)
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
 
-      expect(toArray(soa.indexes())).toStrictEqual([])
-      expect(soa.has(0)).toBe(false)
+        soa.delete(0)
+
+        expect(toArray(soa.indexes())).toStrictEqual([])
+        expect(soa.has(0)).toBe(false)
+      })
     })
   })
 })
