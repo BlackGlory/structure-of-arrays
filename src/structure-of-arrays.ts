@@ -92,11 +92,11 @@ export class StructureOfArrays<T extends Structure> {
    */
   get<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]> {
     const array = this.keyToArray[key]
-    const value = get(array, index)
     if (index < array.length) {
       if (this.recycledIndexes.has(index)) {
         throw new RangeError('index has been deleted')
       } else {
+        const value = get(array, index)
         return value as unknown as PrimitiveOfType<T[U]>
       }
     } else {
