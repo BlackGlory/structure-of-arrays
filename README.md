@@ -103,6 +103,10 @@ class StructureOfArrays<T extends Stucture> {
    */
   readonly arrays: StructureInternalArrays<T>
 
+  get length(): number
+
+  constructor(structure: T)
+
   indexes(): Iterable<number>
 
   has(index: number): boolean
@@ -114,24 +118,39 @@ class StructureOfArrays<T extends Stucture> {
 
   tryGet<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]> | undefined
 
+  /**
+   * Insert or update an item based on index.
+   */
+  upsert(index: number, structure: StructurePrimitive<T>): void
+
+  /**
+   * Insert items that reuse deleted indexes, return indexes.
+   */
   add(...structures: Array<StructurePrimitive<T>>): number[]
+
+  /**
+   * Insert items at the end of the array, return indexes.
+   */
   push(...structures: Array<StructurePrimitive<T>>): number[]
 
   /**
    * @throws {RangeError}
    */
-  set<U extends keyof T>(
+  update<U extends keyof T>(
     index: number
   , key: U
   , value: PrimitiveOfTypeArray<StructureArrays<T>[U]>
   ): void
 
-  trySet<U extends keyof T>(
+  tryUpdate<U extends keyof T>(
     index: number
   , key: U
   , value: PrimitiveOfTypeArray<StructureArrays<T>[U]>
   ): boolean
 
+  /**
+   *
+   */
   delete(index: number): void
 }
 ```

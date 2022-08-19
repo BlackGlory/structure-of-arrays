@@ -346,6 +346,76 @@ describe('StructureOfArrays', () => {
     })
   })
 
+  describe('upsert', () => {
+    describe('index exists', () => {
+      test('non-empty structure', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+        soa.add({
+          integer: 0
+        , boolean: false
+        , string: ''
+        })
+
+        soa.upsert(0, {
+          integer: 1
+        , boolean: true
+        , string: 'string'
+        })
+
+        expect(soa.length).toBe(1)
+        expect(soa.get(0, 'integer')).toBe(1)
+        expect(soa.get(0, 'boolean')).toBe(true)
+        expect(soa.get(0, 'string')).toBe('string')
+      })
+
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
+        soa.add({})
+
+        soa.upsert(0, {})
+
+        expect(soa.length).toBe(1)
+        expect(soa.has(0)).toBe(true)
+      })
+    })
+
+    describe('index does not exist', () => {
+      test('non-empty structure', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+
+        soa.upsert(1, {
+          integer: 1
+        , boolean: true
+        , string: 'string'
+        })
+
+        expect(soa.length).toBe(2)
+        expect(soa.has(0)).toBe(false)
+        expect(soa.get(1, 'integer')).toBe(1)
+        expect(soa.get(1, 'boolean')).toBe(true)
+        expect(soa.get(1, 'string')).toBe('string')
+      })
+
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
+
+        soa.upsert(1, {})
+
+        expect(soa.length).toBe(2)
+        expect(soa.has(0)).toBe(false)
+        expect(soa.has(1)).toBe(true)
+      })
+    })
+  })
+
   describe('add', () => {
     describe('SoA is empty', () => {
       test('non-empty structure', () => {
@@ -369,6 +439,7 @@ describe('StructureOfArrays', () => {
         )
 
         expect(result).toStrictEqual([0, 1])
+        expect(soa.length).toBe(2)
         expect(soa.get(0, 'integer')).toBe(0)
         expect(soa.get(0, 'boolean')).toBe(false)
         expect(soa.get(0, 'string')).toBe('')
@@ -383,6 +454,7 @@ describe('StructureOfArrays', () => {
         const result = soa.add({} , {})
 
         expect(result).toStrictEqual([0, 1])
+        expect(soa.length).toBe(2)
         expect(soa.has(0)).toBe(true)
         expect(soa.has(1)).toBe(true)
       })
@@ -423,6 +495,7 @@ describe('StructureOfArrays', () => {
         )
 
         expect(result).toStrictEqual([0, 2])
+        expect(soa.length).toBe(3)
         expect(soa.get(0, 'integer')).toBe(2)
         expect(soa.get(0, 'boolean')).toBe(true)
         expect(soa.get(0, 'string')).toBe('string')
@@ -442,6 +515,7 @@ describe('StructureOfArrays', () => {
         const result = soa.add({}, {})
 
         expect(result).toStrictEqual([0, 2])
+        expect(soa.length).toBe(3)
         expect(soa.has(0)).toBe(true)
         expect(soa.has(1)).toBe(true)
         expect(soa.has(2)).toBe(true)
@@ -472,6 +546,7 @@ describe('StructureOfArrays', () => {
         )
 
         expect(result).toStrictEqual([0, 1])
+        expect(soa.length).toBe(2)
         expect(soa.get(0, 'integer')).toBe(0)
         expect(soa.get(0, 'boolean')).toBe(false)
         expect(soa.get(0, 'string')).toBe('')
@@ -486,6 +561,7 @@ describe('StructureOfArrays', () => {
         const result = soa.push({} , {})
 
         expect(result).toStrictEqual([0, 1])
+        expect(soa.length).toBe(2)
         expect(soa.has(0)).toBe(true)
         expect(soa.has(1)).toBe(true)
       })
@@ -526,6 +602,7 @@ describe('StructureOfArrays', () => {
         )
 
         expect(result).toStrictEqual([2, 3])
+        expect(soa.length).toBe(4)
         expect(soa.has(0)).toBe(false)
         expect(soa.get(1, 'integer')).toBe(1)
         expect(soa.get(1, 'boolean')).toBe(true)
@@ -546,6 +623,7 @@ describe('StructureOfArrays', () => {
         const result = soa.push({}, {})
 
         expect(result).toStrictEqual([2, 3])
+        expect(soa.length).toBe(4)
         expect(soa.has(0)).toBe(false)
         expect(soa.has(1)).toBe(true)
         expect(soa.has(2)).toBe(true)
@@ -554,7 +632,7 @@ describe('StructureOfArrays', () => {
     })
   })
 
-  describe('set', () => {
+  describe('update', () => {
     test('index exists', () => {
       const soa = new StructureOfArrays({
         integer: int8
@@ -567,9 +645,9 @@ describe('StructureOfArrays', () => {
       , string: ''
       })
 
-      soa.set(0, 'integer', 1)
-      soa.set(0, 'boolean', true)
-      soa.set(0, 'string', 'string')
+      soa.update(0, 'integer', 1)
+      soa.update(0, 'boolean', true)
+      soa.update(0, 'string', 'string')
 
       expect(soa.get(0, 'integer')).toBe(1)
       expect(soa.get(0, 'boolean')).toBe(true)
@@ -583,9 +661,9 @@ describe('StructureOfArrays', () => {
       , string: string
       })
 
-      const result1 = getError(() => soa.set(0, 'integer', 1))
-      const result2 = getError(() => soa.set(0, 'boolean', true))
-      const result3 = getError(() => soa.set(0, 'string', 'string'))
+      const result1 = getError(() => soa.update(0, 'integer', 1))
+      const result2 = getError(() => soa.update(0, 'boolean', true))
+      const result3 = getError(() => soa.update(0, 'string', 'string'))
 
       expect(toArray(soa.indexes())).toStrictEqual([])
       expect(result1).toBeInstanceOf(RangeError)
@@ -595,7 +673,7 @@ describe('StructureOfArrays', () => {
     })
   })
 
-  describe('trySet', () => {
+  describe('tryUpdate', () => {
     test('index exists', () => {
       const soa = new StructureOfArrays({
         integer: int8
@@ -608,9 +686,9 @@ describe('StructureOfArrays', () => {
       , string: ''
       })
 
-      const result1 = soa.trySet(0, 'integer', 1)
-      const result2 = soa.trySet(0, 'boolean', true)
-      const result3 = soa.trySet(0, 'string', 'string')
+      const result1 = soa.tryUpdate(0, 'integer', 1)
+      const result2 = soa.tryUpdate(0, 'boolean', true)
+      const result3 = soa.tryUpdate(0, 'string', 'string')
 
       expect(result1).toBe(true)
       expect(result2).toBe(true)
@@ -627,9 +705,9 @@ describe('StructureOfArrays', () => {
       , string: string
       })
 
-      const result1 = soa.trySet(0, 'integer', 1)
-      const result2 = soa.trySet(0, 'boolean', true)
-      const result3 = soa.trySet(0, 'string', 'string')
+      const result1 = soa.tryUpdate(0, 'integer', 1)
+      const result2 = soa.tryUpdate(0, 'boolean', true)
+      const result3 = soa.tryUpdate(0, 'string', 'string')
 
       expect(toArray(soa.indexes())).toStrictEqual([])
       expect(result1).toBe(false)
@@ -656,6 +734,7 @@ describe('StructureOfArrays', () => {
         soa.delete(0)
 
         expect(toArray(soa.indexes())).toStrictEqual([])
+        expect(soa.length).toBe(1)
         expect(soa.has(0)).toBe(false)
       })
 
@@ -666,6 +745,7 @@ describe('StructureOfArrays', () => {
         soa.delete(0)
 
         expect(toArray(soa.indexes())).toStrictEqual([])
+        expect(soa.length).toBe(1)
         expect(soa.has(0)).toBe(false)
       })
     })
@@ -681,6 +761,7 @@ describe('StructureOfArrays', () => {
         soa.delete(0)
 
         expect(toArray(soa.indexes())).toStrictEqual([])
+        expect(soa.length).toBe(0)
         expect(soa.has(0)).toBe(false)
       })
 
@@ -690,6 +771,7 @@ describe('StructureOfArrays', () => {
         soa.delete(0)
 
         expect(toArray(soa.indexes())).toStrictEqual([])
+        expect(soa.length).toBe(0)
         expect(soa.has(0)).toBe(false)
       })
     })
