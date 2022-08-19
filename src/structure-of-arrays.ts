@@ -55,8 +55,13 @@ export class StructureOfArrays<T extends Structure> {
       const result: Record<string, InternalArrayOfType<T[keyof T]>> = {}
 
       keys.forEach(key => {
+        const array = this.keyToArray[key]
         Object.defineProperty(result, key, {
-          get: () => this.getInternalArray(key)
+          get: array instanceof DynamicTypedArray
+             ? () => (
+                 this.keyToArray[key] as DynamicTypedArray<any>
+               ).internalTypedArray as InternalArrayOfType<T[keyof T]>
+             : () => array as string[] | boolean[] as InternalArrayOfType<T[keyof T]>
         })
       })
 
@@ -201,14 +206,5 @@ export class StructureOfArrays<T extends Structure> {
 
   private findCollectedIndexes(count: number): number[] {
     return toArray(take(this.recycledIndexes, count))
-  }
-
-  private getInternalArray<U extends keyof T>(key: U): InternalArrayOfType<T[U]> {
-    const array = this.keyToArray[key]
-    if (array instanceof DynamicTypedArray) {
-      return array.internalTypedArray as InternalArrayOfType<T[U]>
-    } else {
-      return array as string[] | boolean[] as InternalArrayOfType<T[U]>
-    }
   }
 }
