@@ -52,11 +52,13 @@ export class StructureOfArrays<T extends Structure> {
     this.deletableKeys = deleteableKeys
     this.keyToArray = keyToArray as StructureArrays<T>
     this.arrays = go(() => {
-      const result: Record<string, InternalArrayOfType<T[keyof T]>> = {}
+      // 通过原型在V8优化defineProperty
+      // https://stackoverflow.com/questions/36338289/object-descriptor-getter-setter-performance-in-recent-chrome-v8-versions
+      const internalArrays = {}
 
       keys.forEach(key => {
         const array = this.keyToArray[key]
-        Object.defineProperty(result, key, {
+        Object.defineProperty(internalArrays, key, {
           get: array instanceof DynamicTypedArray
              ? () => (
                  this.keyToArray[key] as DynamicTypedArray<any>
@@ -65,7 +67,7 @@ export class StructureOfArrays<T extends Structure> {
         })
       })
 
-      return result as StructureInternalArrays<T>
+      return Object.create(internalArrays) as StructureInternalArrays<T>
     })
   }
 
