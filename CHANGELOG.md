@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.3](https://github.com/BlackGlory/structure-of-arrays/compare/v0.2.2...v0.2.3) (2022-08-19)
+
+
+### Features
+
+* add empty structure support ([e32e29e](https://github.com/BlackGlory/structure-of-arrays/commit/e32e29e1c799b9db94d2f896402b1ed576bd3329))
+
 ### [0.2.2](https://github.com/BlackGlory/structure-of-arrays/compare/v0.2.1...v0.2.2) (2022-08-19)
 
 ### [0.2.1](https://github.com/BlackGlory/structure-of-arrays/compare/v0.2.0...v0.2.1) (2022-08-17)
