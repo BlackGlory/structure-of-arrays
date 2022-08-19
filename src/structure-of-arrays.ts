@@ -1,6 +1,6 @@
 import { go } from '@blackglory/prelude'
 import { take, toArray } from 'iterable-operator'
-import { SparseSet, DynamicTypedArray } from '@blackglory/structures'
+import { DynamicTypedArray } from '@blackglory/structures'
 import {
   Primitive
 , PrimitiveOfType
@@ -32,8 +32,8 @@ export class StructureOfArrays<T extends Structure> {
   private keys: string[]
   private deletableKeys: string[]
   private keyToArray: StructureArrays<T>
-  private usedIndexes = new SparseSet()
-  private recycledIndexes = new SparseSet()
+  private usedIndexes = new Set<number>()
+  private recycledIndexes = new Set<number>()
 
   get length(): number {
     return this._length
@@ -77,7 +77,7 @@ export class StructureOfArrays<T extends Structure> {
   }
 
   indexes(): Iterable<number> {
-    return this.usedIndexes[Symbol.iterator]()
+    return this.usedIndexes.values()
   }
 
   has(index: number): boolean {
@@ -120,7 +120,7 @@ export class StructureOfArrays<T extends Structure> {
     }
 
     this.usedIndexes.add(index)
-    this.recycledIndexes.remove(index)
+    this.recycledIndexes.delete(index)
   }
 
   /**
@@ -137,7 +137,7 @@ export class StructureOfArrays<T extends Structure> {
       }
 
       this.usedIndexes.add(index)
-      this.recycledIndexes.remove(index)
+      this.recycledIndexes.delete(index)
     }
 
     const remainingStuctures = structures.slice(recycledIndexes.length)
@@ -216,7 +216,7 @@ export class StructureOfArrays<T extends Structure> {
   // 此方法只实现了软删除, 将string[]和boolean[]类型的对应位置删除.
   // 硬删除最多只能回收位于数组末尾的连续项目, 且数组resize可能反而带来性能损失, 因此不实现硬删除.
   delete(index: number): void {
-    this.usedIndexes.remove(index)
+    this.usedIndexes.delete(index)
     this.recycledIndexes.add(index)
 
     this.deletableKeys.forEach(key => {
