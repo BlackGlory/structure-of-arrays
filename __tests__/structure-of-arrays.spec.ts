@@ -77,7 +77,7 @@ describe('StructureOfArrays', () => {
   })
 
   describe('indexes', () => {
-    describe('SOA is empty', () => {
+    describe('SoA is empty', () => {
       test('non-empty structure', () => {
         const soa = new StructureOfArrays({
           integer: int8
@@ -103,7 +103,7 @@ describe('StructureOfArrays', () => {
       })
     })
 
-    describe('SOA has deleted items', () => {
+    describe('SoA has deleted items', () => {
       test('non-empty structure', () => {
         const soa = new StructureOfArrays({
           integer: int8
@@ -144,7 +144,7 @@ describe('StructureOfArrays', () => {
       })
     })
 
-    describe('SOA is non-empty', () => {
+    describe('SoA is non-empty', () => {
       test('non-empty structure', () => {
         const soa = new StructureOfArrays({
           integer: int8
@@ -347,7 +347,7 @@ describe('StructureOfArrays', () => {
   })
 
   describe('add', () => {
-    describe('SOA is empty', () => {
+    describe('SoA is empty', () => {
       test('non-empty structure', () => {
         const soa = new StructureOfArrays({
           integer: int8
@@ -388,7 +388,7 @@ describe('StructureOfArrays', () => {
       })
     })
 
-    describe('SOA has deleted items', () => {
+    describe('SoA has deleted items', () => {
       test('non-empty structure', () => {
         const soa = new StructureOfArrays({
           integer: int8
@@ -445,6 +445,111 @@ describe('StructureOfArrays', () => {
         expect(soa.has(0)).toBe(true)
         expect(soa.has(1)).toBe(true)
         expect(soa.has(2)).toBe(true)
+      })
+    })
+  })
+
+  describe('push', () => {
+    describe('SoA is empty', () => {
+      test('non-empty structure', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+
+        const result = soa.push(
+          {
+            integer: 0
+          , boolean: false
+          , string: ''
+          }
+        , {
+            integer: 1
+          , boolean: true
+          , string: 'string'
+          }
+        )
+
+        expect(result).toStrictEqual([0, 1])
+        expect(soa.get(0, 'integer')).toBe(0)
+        expect(soa.get(0, 'boolean')).toBe(false)
+        expect(soa.get(0, 'string')).toBe('')
+        expect(soa.get(1, 'integer')).toBe(1)
+        expect(soa.get(1, 'boolean')).toBe(true)
+        expect(soa.get(1, 'string')).toBe('string')
+      })
+
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
+
+        const result = soa.push({} , {})
+
+        expect(result).toStrictEqual([0, 1])
+        expect(soa.has(0)).toBe(true)
+        expect(soa.has(1)).toBe(true)
+      })
+    })
+
+    describe('SoA has deleted items', () => {
+      test('non-empty structure', () => {
+        const soa = new StructureOfArrays({
+          integer: int8
+        , boolean: boolean
+        , string: string
+        })
+        soa.add(
+          {
+            integer: 0
+          , boolean: false
+          , string: ''
+          }
+        , {
+            integer: 1
+          , boolean: true
+          , string: 'string'
+          }
+        )
+        soa.delete(0)
+
+        const result = soa.push(
+          {
+            integer: 2
+          , boolean: true
+          , string: 'string'
+          }
+        , {
+            integer: 3
+          , boolean: true
+          , string: 'string'
+          }
+        )
+
+        expect(result).toStrictEqual([2, 3])
+        expect(soa.has(0)).toBe(false)
+        expect(soa.get(1, 'integer')).toBe(1)
+        expect(soa.get(1, 'boolean')).toBe(true)
+        expect(soa.get(1, 'string')).toBe('string')
+        expect(soa.get(2, 'integer')).toBe(2)
+        expect(soa.get(2, 'boolean')).toBe(true)
+        expect(soa.get(2, 'string')).toBe('string')
+        expect(soa.get(3, 'integer')).toBe(3)
+        expect(soa.get(3, 'boolean')).toBe(true)
+        expect(soa.get(3, 'string')).toBe('string')
+      })
+
+      test('empty structure', () => {
+        const soa = new StructureOfArrays({})
+        soa.add({}, {})
+        soa.delete(0)
+
+        const result = soa.push({}, {})
+
+        expect(result).toStrictEqual([2, 3])
+        expect(soa.has(0)).toBe(false)
+        expect(soa.has(1)).toBe(true)
+        expect(soa.has(2)).toBe(true)
+        expect(soa.has(3)).toBe(true)
       })
     })
   })

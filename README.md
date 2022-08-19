@@ -115,6 +115,7 @@ class StructureOfArrays<T extends Stucture> {
   tryGet<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]> | undefined
 
   add(...structures: Array<StructurePrimitive<T>>): number[]
+  push(...structures: Array<StructurePrimitive<T>>): number[]
 
   /**
    * @throws {RangeError}

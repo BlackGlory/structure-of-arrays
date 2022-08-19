@@ -106,7 +106,6 @@ export class StructureOfArrays<T extends Structure> {
     }
   }
 
-  // 此处代码经过优化, 尽可能避免修改它.
   add(...structures: Array<StructurePrimitive<T>>): number[] {
     const collectedIndexes = this.findCollectedIndexes(structures.length)
     for (let i = 0; i < collectedIndexes.length; i++) {
@@ -118,42 +117,42 @@ export class StructureOfArrays<T extends Structure> {
       this.recycledIndexes.remove(collectedIndexes[i])
     }
 
-    const remaining = structures.length - collectedIndexes.length
-    if (remaining === 0) return collectedIndexes
+    const remainingStuctures = structures.slice(collectedIndexes.length)
+    if (remainingStuctures.length === 0) {
+      return collectedIndexes
+    } else {
+      const pushedIndexes = this.push(...remainingStuctures)
+      return [...collectedIndexes, ...pushedIndexes]
+    }
+  }
 
+  push(...structures: Array<StructurePrimitive<T>>): number[] {
     // 为了防止TypedArray多次resize, 将值汇聚在一起后一起push.
     const keyToValues: Record<string, Primitive[]> = Object.fromEntries(
       this.keys.map(key => [key, []])
     )
-    for (let i = collectedIndexes.length; i < structures.length; i++) {
+    const pushedIndexes: number[] = []
+    for (let i = 0; i < structures.length; i++) {
       for (const key of this.keys) {
         const value = structures[i][key]
         keyToValues[key].push(value)
       }
-      this.length++
+
+      pushedIndexes.push(this.length++)
     }
+
     this.keys.forEach(key => {
       push(
         this.keyToArray[key]
       , ...(
           keyToValues[key] as Array<
-            PrimitiveOfTypeArray<
-              typeof this.keyToArray[typeof key]
-            >
+            PrimitiveOfTypeArray<typeof this.keyToArray[typeof key]>
           >
         )
       )
     })
 
-    const length = this.length
-    return [
-      ...collectedIndexes
-    , ...go(function* (): Iterable<number> {
-        for (let i = Math.max(length - remaining, 0); i < length; i++) {
-          yield i
-        }
-      })
-    ]
+    return pushedIndexes
   }
 
   /**
