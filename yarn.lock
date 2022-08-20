@@ -776,6 +776,18 @@
     iterable-operator "^1.1.0"
     justypes "^2.0.0"
 
+"@blackglory/structures@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.10.0.tgz#bb339d6e643ff2bb0e92f2ac4130164d6d0ec6ac"
+  integrity sha512-DNc6kfTQq2U89qf53hiEm678LbSpbkEWZ9RxlR/vH7x5gj8jZxa0kz4m0pt2OO1BIxu7TaHVWDQ1DHzj+33rRw==
+  dependencies:
+    "@blackglory/errors" "^2.2.1"
+    "@blackglory/types" "^1.2.1"
+    extra-timers "^0.2.5"
+    iterable-operator "^1.1.0"
+    justypes "^2.2.0"
+    rxjs "^7.5.5"
+
 "@blackglory/structures@^0.3.5":
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.3.5.tgz#f6af7c598e00f9c51157505d3d6560409cfa529b"
@@ -785,18 +797,6 @@
     "@blackglory/types" "^1.0.0"
     extra-timers "^0.2.5"
     iterable-operator "^1.0.0"
-    rxjs "^7.5.5"
-
-"@blackglory/structures@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.8.0.tgz#ba3a8de85fd6c26b9af8aa1fd4170e5573eb0494"
-  integrity sha512-ZOLpySFhxR/9A2Tr4xzbp5IUgNggzJ1YtWUDqivNY6drrANnFixEK63rdyMJFORq1zmY9y0ltexZ5dn6rdenug==
-  dependencies:
-    "@blackglory/errors" "^2.2.1"
-    "@blackglory/types" "^1.2.1"
-    extra-timers "^0.2.5"
-    iterable-operator "^1.1.0"
-    justypes "^2.2.0"
     rxjs "^7.5.5"
 
 "@blackglory/types@^0.6.3":
