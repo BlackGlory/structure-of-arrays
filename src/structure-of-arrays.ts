@@ -25,6 +25,9 @@ type StructureInternalArrays<T extends Structure> = {
   [Key in keyof T]: InternalArrayOfType<T[Key]>
 }
 
+/**
+ * 紧凑的, 带有基于SparseMap的转换表
+ */
 export class StructureOfArrays<T extends Structure> {
   readonly arrays: StructureInternalArrays<T>
 
