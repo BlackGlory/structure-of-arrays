@@ -787,10 +787,10 @@
     iterable-operator "^1.0.0"
     rxjs "^7.5.5"
 
-"@blackglory/structures@^0.6.10":
-  version "0.6.10"
-  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.6.10.tgz#db8e8e72560f34a26bd1312b53fc1758e8de1846"
-  integrity sha512-cgqbwazXudtystPD8fj3UqHZEPRER5wTUZZ55fuxnqw1JpxF4LMLGpEAN2upQeDCY+KK7bE9uias+bq0se5aRQ==
+"@blackglory/structures@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.7.0.tgz#682749791cb9d3af7d25890c8d5336d74282fa3b"
+  integrity sha512-B6NzVLZ8+rs/L0m7ZnbjH4jw+sPqMuw6oPCfPHIhSdiNCtnXWrBA9emqauqM56cYFcy9LBC+kNiUTqpFFWpKbw==
   dependencies:
     "@blackglory/errors" "^2.2.1"
     "@blackglory/types" "^1.2.1"
