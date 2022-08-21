@@ -776,15 +776,15 @@
     iterable-operator "^1.1.0"
     justypes "^2.0.0"
 
-"@blackglory/structures@^0.10.0":
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.10.0.tgz#bb339d6e643ff2bb0e92f2ac4130164d6d0ec6ac"
-  integrity sha512-DNc6kfTQq2U89qf53hiEm678LbSpbkEWZ9RxlR/vH7x5gj8jZxa0kz4m0pt2OO1BIxu7TaHVWDQ1DHzj+33rRw==
+"@blackglory/structures@^0.10.2":
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.10.2.tgz#09d89d3c6d476fa96d208de2e32f1711fe25f86b"
+  integrity sha512-5x5mPwEW7eD5kIKT+m8S4FC/zJnCVFxUUiAKa7+8rkcbunkSZR/+GbguisERwp9/mblr0GKuMN6U6v+OBE2Q7g==
   dependencies:
     "@blackglory/errors" "^2.2.1"
     "@blackglory/types" "^1.2.1"
     extra-timers "^0.2.5"
-    iterable-operator "^1.1.0"
+    iterable-operator "^1.2.1"
     justypes "^2.2.0"
     rxjs "^7.5.5"
 
@@ -3988,15 +3988,15 @@ iterable-operator@^1.1.0:
     "@blackglory/go" "^1.0.0"
     "@blackglory/types" "^1.1.0"
 
-iterable-operator@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/iterable-operator/-/iterable-operator-1.2.0.tgz#5d4d099b54769a36fa548c7fd33a6121dce3511a"
-  integrity sha512-rwdj2N+AZ00aXFKPuo0QEuRODBSseGN4ZOhs3IljCTK24JzzSbkZPA4k/9tSiu6RaehJtDZNRgncuiyEg+F4+w==
+iterable-operator@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/iterable-operator/-/iterable-operator-1.2.1.tgz#f24be5929a571bac6c51c2dff9f0fe535fa4bf54"
+  integrity sha512-wxW7d467ZY9OKWDAPQTdR7zTyQgEVt7k4VLAZ/Y+x5lnen023oFbo1QfxMMNw+PZAhfETjRyzPOGmxBg5vS7bw==
   dependencies:
     "@blackglory/errors" "^2.2.2"
     "@blackglory/go" "^1.1.2"
     "@blackglory/types" "^1.2.1"
-    justypes "^2.0.1"
+    justypes "^2.2.0"
 
 jest-changed-files@^27.5.1:
   version "27.5.1"
@@ -4542,11 +4542,6 @@ justypes@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/justypes/-/justypes-2.0.0.tgz#e1a09c8c99e08a54ac3a48bb97cb259d5082f907"
   integrity sha512-WzP+uveN67uQE9RsctKxqJrfBPv3aGyKnUasxaPCdXQM1voWtMObWHzpns4PjNoDFw0EvzLVoTShKn+ihpeRTA==
-
-justypes@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/justypes/-/justypes-2.0.1.tgz#f1468bc13dcf106e488cc8ab64a48c6db0e66ddc"
-  integrity sha512-hijVbniXf9DCtKaBIdJLqLn7uHjQ7KEFILiM9nfWwDdvej++eGMBqSCSAGXJvKjga00jfCmM5iyrhzBZybrTvQ==
 
 justypes@^2.2.0:
   version "2.2.0"
