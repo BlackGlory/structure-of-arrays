@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.3](https://github.com/BlackGlory/structure-of-arrays/compare/v0.3.2...v0.3.3) (2022-08-22)
+
+
+### Features
+
+* improve `delete`, add `pop` ([2a61601](https://github.com/BlackGlory/structure-of-arrays/commit/2a6160136c7fec8f488b87b63fa182f903ab07ac))
+
 ### [0.3.2](https://github.com/BlackGlory/structure-of-arrays/compare/v0.3.1...v0.3.2) (2022-08-20)
 
 ### [0.3.1](https://github.com/BlackGlory/structure-of-arrays/compare/v0.3.0...v0.3.1) (2022-08-19)
