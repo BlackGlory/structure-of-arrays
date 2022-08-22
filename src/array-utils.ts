@@ -53,3 +53,7 @@ export function push<T extends TypeArray>(
 ): void {
   (array.push as (...values: Array<PrimitiveOfTypeArray<T>>) => unknown)(...values)
 }
+
+export function pop<T extends TypeArray>(array: T): void {
+  array.pop()
+}

@@ -9,7 +9,7 @@ import {
 , TypeArrayOfType
 , InternalArrayOfType
 } from './types'
-import { create, get, set, push } from './type-array-utils'
+import { create, get, set, push, pop } from './array-utils'
 
 export type Structure = Record<string, Type>
 
@@ -30,13 +30,16 @@ export class StructureOfArrays<T extends Structure> {
 
   private _length: number = 0
   private keys: string[]
-  private deletableKeys: string[]
   private keyToArray: StructureArrays<T>
   private usedIndexes = new Set<number>()
   private recycledIndexes = new Set<number>()
 
   get length(): number {
     return this._length
+  }
+
+  get size(): number {
+    return this.usedIndexes.size
   }
 
   constructor(structure: T) {
@@ -54,7 +57,6 @@ export class StructureOfArrays<T extends Structure> {
     }
 
     this.keys = keys
-    this.deletableKeys = deleteableKeys
     this.keyToArray = keyToArray as StructureArrays<T>
     this.arrays = go(() => {
       // 通过原型在V8优化defineProperty
@@ -213,16 +215,33 @@ export class StructureOfArrays<T extends Structure> {
     }
   }
 
-  // 此方法只实现了软删除, 将string[]和boolean[]类型的对应位置删除.
-  // 硬删除最多只能回收位于数组末尾的连续项目, 且数组resize可能反而带来性能损失, 因此不实现硬删除.
   delete(index: number): void {
-    this.usedIndexes.delete(index)
-    this.recycledIndexes.add(index)
+    if (index === this.length - 1) {
+      this.pop()
+    } else {
+      const deleted = this.usedIndexes.delete(index)
+      if (deleted) {
+        this.recycledIndexes.add(index)
+      }
+    }
+  }
 
-    this.deletableKeys.forEach(key => {
-      // delete数组最后一个项目不会使数组length缩短
-      delete (this.keyToArray[key] as unknown[])[index]
-    })
+  pop(): void {
+    if (this.length > 0) {
+      this.usedIndexes.delete(this.length - 1)
+      for (const key of this.keys) {
+        pop(this.keyToArray[key])
+      }
+      this._length--
+
+      while (this.recycledIndexes.has(this.length - 1)) {
+        this.recycledIndexes.delete(this.length - 1)
+        for (const key of this.keys) {
+          pop(this.keyToArray[key])
+        }
+        this._length--
+      }
+    }
   }
 
   private findRecycledIndexes(count: number): number[] {

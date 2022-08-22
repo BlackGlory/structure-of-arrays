@@ -148,10 +148,8 @@ class StructureOfArrays<T extends Stucture> {
   , value: PrimitiveOfTypeArray<StructureArrays<T>[U]>
   ): boolean
 
-  /**
-   *
-   */
   delete(index: number): void
+  pop(): void 
 }
 ```
 

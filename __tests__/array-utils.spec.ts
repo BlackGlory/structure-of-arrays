@@ -1,4 +1,4 @@
-import { create, get, set, push } from '@src/type-array-utils'
+import { create, get, set, push, pop } from '@src/array-utils'
 import { int8, string } from '@src/types'
 import { DynamicTypedArray } from '@blackglory/structures'
 
@@ -119,5 +119,29 @@ describe('push', () => {
     expect(array[0]).toBe('1')
     expect(array[1]).toBe('2')
     expect(array.length).toBe(2)
+  })
+})
+
+describe('pop', () => {
+  test('TypedArray', () => {
+    const array = create(int8)
+    array.push(1, 2)
+
+    pop(array)
+
+    expect(array.get(0)).toBe(1)
+    expect(array.get(1)).toBe(undefined)
+    expect(array.length).toBe(1)
+  })
+
+  test('Array', () => {
+    const array = create(string)
+    array.push('1', '2')
+
+    pop(array)
+
+    expect(array[0]).toBe('1')
+    expect(array[1]).toBe(undefined)
+    expect(array.length).toBe(1)
   })
 })
