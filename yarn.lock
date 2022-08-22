@@ -776,10 +776,10 @@
     iterable-operator "^1.1.0"
     justypes "^2.0.0"
 
-"@blackglory/structures@^0.10.4":
-  version "0.10.4"
-  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.10.4.tgz#195fac29bad62c64b92cf589e07fb054482ebeb1"
-  integrity sha512-LZyxroFccpRTkbil0ddiypaMrbmnMxxOAdS7WPomvOVqHer3rYTlZK5PK7rntm0AHs21xTiI+eooy2YA4vIUqw==
+"@blackglory/structures@^0.10.7":
+  version "0.10.7"
+  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.10.7.tgz#30a5934def6e96fcdadb6d203737a3a0c2cf697c"
+  integrity sha512-RrjHFGJgQQw5e++xI1ymf9/6HpJiW4BMP5iYPXJPNkAyeq+Cdl4H3xBgFw5Ahl7RhEkhclRE/a0HbFffK4NpQg==
   dependencies:
     "@blackglory/errors" "^2.2.1"
     "@blackglory/types" "^1.2.1"
