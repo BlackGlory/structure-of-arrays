@@ -1,8 +1,5 @@
-export {
-  StructureOfArrays
-, Structure
-, StructurePrimitive
-} from './structure-of-arrays'
+export * from './structure-of-arrays'
+export * from './structure-of-sparse-maps'
 export {
   int8
 , uint8
@@ -14,4 +11,6 @@ export {
 , float
 , boolean
 , string
+, Structure
+, MapStructureToPrimitive
 } from './types'

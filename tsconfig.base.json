@@ -9,8 +9,6 @@
   , "baseUrl": "."
   , "paths": {
       "@src/*": ["src/*"]
-    , "@memoizes": ["src/memoizes/index"]
-    , "@memoizes/*": ["src/memoizes/*"]
     , "@test/*": ["__tests__/*"]
     }
   }

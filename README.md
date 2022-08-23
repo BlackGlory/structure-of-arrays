@@ -46,64 +46,75 @@ for (const index of Movable.indexes()) {
 
 ## API
 ```ts
-import { DynamicTypedArray } from '@blackglory/structures'
-
 type Structure = Record<string, Type>
 
-type StructureInternalArrays<T extends Structure> = {
-  [Key in keyof T]: InternalArrayOfTypeArrayConsturctor<T[Key]>
-}
-
-type StructurePrimitive<T extends Structure> = {
+type MapStructureToPrimitive<T extends Structure> = {
   [Key in keyof T]: PrimitiveOfType<T[Key]>
 }
 
-type StructureArrays<T extends Structure> = {
-  [Key in keyof T]: TypeArrayOfType<T[Key]>
+type MapStructureToInternalArrays<T extends Structure> = {
+  [Key in keyof T]: InternalArrayOfType<T[Key]>
 }
 
-type PrimitiveOfTypeArray<T extends TypeArray> =
+type PrimitiveOfType<T extends Type> =
+  T extends typeof int8 ? number
+: T extends typeof uint8 ? number
+: T extends typeof int16 ? number
+: T extends typeof uint16 ? number
+: T extends typeof int32 ? number
+: T extends typeof uint32 ? number
+: T extends typeof double ? number
+: T extends typeof boolean ? boolean
+: T extends typeof string ? string
+: never
+
+type InternalArrayOfType<T extends Type> =
+  T extends typeof int8 ? Int8Array
+: T extends typeof uint8 ? Uint8Array
+: T extends typeof int16 ? Int16Array
+: T extends typeof uint16 ? Uint16Array
+: T extends typeof int32 ? Int32Array
+: T extends typeof uint32 ? Uint32Array
+: T extends typeof float ? Float32Array
+: T extends typeof double ? Float64Array
+: T extends typeof boolean ? boolean[]
+: T extends typeof string ? string[]
+: never
+
+type Type =
+| typeof int8
+| typeof uint8
+| typeof int16
+| typeof uint16
+| typeof int32
+| typeof uint32
+| typeof float
+| typeof double
+| typeof boolean
+| typeof string
+```
+
+### StructureOfArrays
+```ts
+type ValueOfContainer<T extends Container> =
   T extends DynamicTypedArray<any> ? number
 : T extends boolean[] ? boolean
 : T extends string[] ? string
 : never
 
-type TypeArrayOfType<T extends Type> =
-  T extends typeof int8 ? DynamicTypedArray<typeof int8>
-: T extends typeof uint8 ? DynamicTypedArray<typeof uint8>
-: T extends typeof int16 ? DynamicTypedArray<typeof int16>
-: T extends typeof uint16 ? DynamicTypedArray<typeof uint16>
-: T extends typeof int32 ? DynamicTypedArray<typeof int32>
-: T extends typeof uint32 ? DynamicTypedArray<typeof uint32>
-: T extends typeof float ? DynamicTypedArray<typeof float>
-: T extends typeof double ? DynamicTypedArray<typeof double>
-: T extends typeof boolean ? boolean[]
-: T extends typeof string ? string[]
-: never
+type StructureContainers<T extends Structure> = {
+  [Key in keyof T]: ContainerOfType<T[Key]>
+}
 
-type TypeArray =
-| DynamicTypedArray<typeof int8>
-| DynamicTypedArray<typeof uint8>
-| DynamicTypedArray<typeof int16>
-| DynamicTypedArray<typeof uint16>
-| DynamicTypedArray<typeof int32>
-| DynamicTypedArray<typeof uint32>
-| DynamicTypedArray<typeof float>
-| DynamicTypedArray<typeof double>
-| boolean[]
-| string[]
-```
-
-### StructureOfArrays
-```ts
 class StructureOfArrays<T extends Stucture> {
   /**
    * Note that `StructureOfArrays` cannot respond to any operations on the internal arrays,
    * you must make sure that indexes being accessed are within bounds and not deleted.
    */
-  readonly arrays: StructureInternalArrays<T>
+  readonly arrays: MapStructureToInternalArrays<T>
 
   get length(): number
+  get size(): number
 
   constructor(structure: T)
 
@@ -119,19 +130,21 @@ class StructureOfArrays<T extends Stucture> {
   tryGet<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]> | undefined
 
   /**
-   * Insert or update an item based on index.
-   */
-  upsert(index: number, structure: StructurePrimitive<T>): void
-
-  /**
    * Insert items that reuse deleted indexes, return indexes.
    */
-  add(...structures: Array<StructurePrimitive<T>>): number[]
+  add(...structures: Array<MapStructureToPrimitive<T>>): number[]
 
   /**
    * Insert items at the end of the array, return indexes.
    */
-  push(...structures: Array<StructurePrimitive<T>>): number[]
+  push(...structures: Array<MapStructureToPrimitive<T>>): number[]
+
+  pop(): void
+
+  /**
+   * Insert or update an item based on index.
+   */
+  upsert(index: number, structure: MapStructureToPrimitive<T>): void
 
   /**
    * @throws {RangeError}
@@ -139,42 +152,74 @@ class StructureOfArrays<T extends Stucture> {
   update<U extends keyof T>(
     index: number
   , key: U
-  , value: PrimitiveOfTypeArray<StructureArrays<T>[U]>
+  , value: ValueOfContainer<StructureContainers<T>[U]>
   ): void
 
   tryUpdate<U extends keyof T>(
     index: number
   , key: U
-  , value: PrimitiveOfTypeArray<StructureArrays<T>[U]>
+  , value: ValueOfContainer<StructureContainers<T>[U]>
   ): boolean
 
   delete(index: number): void
-  pop(): void 
 }
 ```
 
-### Type
+### StructureOfSparseMaps<T extends Structure>
 ```ts
-type Type =
-| typeof int8
-| typeof uint8
-| typeof int16
-| typeof uint16
-| typeof int32
-| typeof uint32
-| typeof float
-| typeof double
-| typeof boolean
-| typeof string
+type ValueOfContainer<T extends Container> =
+  T extends TypedSparseMap<any> ? number
+: T extends SparseMap<boolean> ? boolean
+: T extends SparseMap<string> ? string
+: never
 
-const int8 = Int8Array
-const uint8 = Uint8Array
-const int16 = Int16Array
-const uint16 = Uint16Array
-const int32 = Int32Array
-const uint32 = Uint32Array
-const float = Float32Array
-const double = Float64Array
-const string = String
-const boolean = Boolean
+type StructureContainers<T extends Structure> = {
+  [Key in keyof T]: ContainerOfType<T[Key]>
+}
+
+class StructureOfSparseMaps<T extends Structure> {
+  readonly arrays: MapStructureToInternalArrays<T>
+
+  get size(): number
+
+  constructor(structure: T)
+
+  indexes(): Iterable<number>
+
+  has(index: number): boolean
+
+  /**
+   * @throws {RangeError}
+   */
+  get<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]>
+
+  tryGet<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]> | undefined
+
+  /**
+   * Insert items that reuse deleted indexes, return indexes.
+   */
+  add(...structures: Array<MapStructureToPrimitive<T>>): number[]
+
+  /**
+   * Insert or update an item based on index.
+   */
+  upsert(index: number, structure: MapStructureToPrimitive<T>): void
+
+  /**
+   * @throws {RangeError}
+   */
+  update<U extends keyof T>(
+    index: number
+  , key: U
+  , value: ValueOfContainer<StructureContainers<T>[U]>
+  ): void
+
+  tryUpdate<U extends keyof T>(
+    index: number
+  , key: U
+  , value: ValueOfContainer<StructureContainers<T>[U]>
+  ): boolean
+
+  delete(index: number): void
+}
 ```

@@ -1,4 +1,12 @@
-import { DynamicTypedArray } from '@blackglory/structures'
+export type Structure = Record<string, Type>
+
+export type MapStructureToPrimitive<T extends Structure> = {
+  [Key in keyof T]: PrimitiveOfType<T[Key]>
+}
+
+export type MapStructureToInternalArrays<T extends Structure> = {
+  [Key in keyof T]: InternalArrayOfType<T[Key]>
+}
 
 export const int8 = Int8Array
 export const uint8 = Uint8Array
@@ -11,7 +19,7 @@ export const double = Float64Array
 export const string = String
 export const boolean = Boolean
 
-export type Primitive =
+export type Value =
 | number
 | boolean
 | string
@@ -27,18 +35,6 @@ export type Type =
 | typeof double
 | typeof boolean
 | typeof string
-
-export type TypeArray =
-| DynamicTypedArray<typeof int8>
-| DynamicTypedArray<typeof uint8>
-| DynamicTypedArray<typeof int16>
-| DynamicTypedArray<typeof uint16>
-| DynamicTypedArray<typeof int32>
-| DynamicTypedArray<typeof uint32>
-| DynamicTypedArray<typeof float>
-| DynamicTypedArray<typeof double>
-| boolean[]
-| string[]
 
 export type InternalArray =
 | Int8Array
@@ -62,25 +58,6 @@ export type PrimitiveOfType<T extends Type> =
 : T extends typeof double ? number
 : T extends typeof boolean ? boolean
 : T extends typeof string ? string
-: never
-
-export type PrimitiveOfTypeArray<T extends TypeArray> =
-  T extends DynamicTypedArray<any> ? number
-: T extends boolean[] ? boolean
-: T extends string[] ? string
-: never
-
-export type TypeArrayOfType<T extends Type> =
-  T extends typeof int8 ? DynamicTypedArray<typeof int8>
-: T extends typeof uint8 ? DynamicTypedArray<typeof uint8>
-: T extends typeof int16 ? DynamicTypedArray<typeof int16>
-: T extends typeof uint16 ? DynamicTypedArray<typeof uint16>
-: T extends typeof int32 ? DynamicTypedArray<typeof int32>
-: T extends typeof uint32 ? DynamicTypedArray<typeof uint32>
-: T extends typeof float ? DynamicTypedArray<typeof float>
-: T extends typeof double ? DynamicTypedArray<typeof double>
-: T extends typeof boolean ? boolean[]
-: T extends typeof string ? string[]
 : never
 
 export type InternalArrayOfType<T extends Type> =
