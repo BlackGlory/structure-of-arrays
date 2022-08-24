@@ -13,5 +13,5 @@ export {
 , boolean
 , string
 , Structure
-, MapStructureToPrimitive
+, MapTypesOfStructureToPrimitives
 } from './types'

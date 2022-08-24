@@ -1,10 +1,10 @@
 export type Structure = Record<string, Type>
 
-export type MapStructureToPrimitive<T extends Structure> = {
+export type MapTypesOfStructureToPrimitives<T extends Structure> = {
   [Key in keyof T]: PrimitiveOfType<T[Key]>
 }
 
-export type MapStructureToInternalArrays<T extends Structure> = {
+export type MapTypesOfStructureToInternalArrays<T extends Structure> = {
   [Key in keyof T]: InternalArrayOfType<T[Key]>
 }
 

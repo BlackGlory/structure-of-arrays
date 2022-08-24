@@ -48,11 +48,11 @@ for (const index of Movable.indexes()) {
 ```ts
 type Structure = Record<string, Type>
 
-type MapStructureToPrimitive<T extends Structure> = {
+type MapTypesOfStructureToPrimitives<T extends Structure> = {
   [Key in keyof T]: PrimitiveOfType<T[Key]>
 }
 
-type MapStructureToInternalArrays<T extends Structure> = {
+type MapTypesOfStructureToInternalArrays<T extends Structure> = {
   [Key in keyof T]: InternalArrayOfType<T[Key]>
 }
 
@@ -116,7 +116,10 @@ class StructureOfArrays<T extends Stucture> {
   get length(): number
   get size(): number
 
-  constructor(structure: T)
+  constructor(
+    structure: T
+  , defaultValuesOfStructure?: MapTypesOfStructureToPrimitives<T>
+  )
 
   indexes(): Iterable<number>
 
@@ -129,10 +132,14 @@ class StructureOfArrays<T extends Stucture> {
 
   tryGet<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]> | undefined
 
+  addWithDefaultValues(size: number): number[]
+
   /**
    * Insert items that reuse deleted indexes, return indexes.
    */
   add(...structures: Array<MapStructureToPrimitive<T>>): number[]
+
+  pushWithDefaultValues(size: number): number[]
 
   /**
    * Insert items at the end of the array, return indexes.
@@ -182,7 +189,10 @@ class StructureOfSparseMaps<T extends Structure> {
 
   get size(): number
 
-  constructor(structure: T)
+  constructor(
+    structure: T
+  , defaultValuesOfStructure?: MapTypesOfStructureToPrimitives<T>
+  )
 
   indexes(): Iterable<number>
 
@@ -198,6 +208,8 @@ class StructureOfSparseMaps<T extends Structure> {
   get<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]>
 
   tryGet<U extends keyof T>(index: number, key: U): PrimitiveOfType<T[U]> | undefined
+
+  addWithDefaultValues(size: number): number[]
 
   /**
    * Insert items that reuse deleted indexes, return indexes.

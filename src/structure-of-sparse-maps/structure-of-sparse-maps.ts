@@ -5,14 +5,15 @@ import {
   PrimitiveOfType
 , InternalArrayOfType
 , Structure
-, MapStructureToInternalArrays
-, MapStructureToPrimitive
+, MapTypesOfStructureToInternalArrays
+, MapTypesOfStructureToPrimitives
 } from '@src/types'
 import { ValueOfContainer, StructureContainers, Container } from './types'
 import { create, get, set } from './utils'
+import { createDefaultValueOfStructure } from '@src/utils'
 
 export class StructureOfSparseMaps<T extends Structure> {
-  readonly arrays: MapStructureToInternalArrays<T>
+  readonly arrays: MapTypesOfStructureToInternalArrays<T>
 
   private _length: number = 0
   private keys: string[]
@@ -28,7 +29,10 @@ export class StructureOfSparseMaps<T extends Structure> {
     return this.usedIndexes.size
   }
 
-  constructor(structure: T) {
+  constructor(
+    structure: T
+  , private defaultValuesOfStructure: MapTypesOfStructureToPrimitives<T> = createDefaultValueOfStructure(structure)
+  ) {
     const keys = Object.keys(structure)
     assert(isntEmptyArray(keys), 'The structure should have at least one property')
 
@@ -59,7 +63,7 @@ export class StructureOfSparseMaps<T extends Structure> {
         })
       })
 
-      return Object.create(internalArrays) as MapStructureToInternalArrays<T>
+      return Object.create(internalArrays) as MapTypesOfStructureToInternalArrays<T>
     })
   }
 
@@ -110,10 +114,16 @@ export class StructureOfSparseMaps<T extends Structure> {
     }
   }
 
+  addWithDefaultValues(size: number): number[] {
+    const structures = new Array<MapTypesOfStructureToPrimitives<T>>(size)
+    structures.fill(this.defaultValuesOfStructure)
+    return this.add(...structures)
+  }
+
   /**
    * Insert items that reuse deleted indexes, return indexes.
    */
-  add(...structures: Array<MapStructureToPrimitive<T>>): number[] {
+  add(...structures: Array<MapTypesOfStructureToPrimitives<T>>): number[] {
     const recycledIndexes = this.findRecycledIndexes(structures.length)
     for (let i = 0; i < recycledIndexes.length; i++) {
       const index = recycledIndexes[i]
@@ -151,7 +161,7 @@ export class StructureOfSparseMaps<T extends Structure> {
   /**
    * Insert or update an item based on index.
    */
-  upsert(index: number, structure: MapStructureToPrimitive<T>): void {
+  upsert(index: number, structure: MapTypesOfStructureToPrimitives<T>): void {
     for (const [key, value] of Object.entries(structure)) {
       const container = this.keyToContainer[key]
       set(container, index, value)

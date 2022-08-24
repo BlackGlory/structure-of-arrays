@@ -401,6 +401,62 @@ describe('StructureOfSparseMaps', () => {
     })
   })
 
+  describe('addWithDefaultValues', () => {
+    test('SoA is empty', () => {
+      const soa = new StructureOfSparseMaps({
+        integer: int8
+      , boolean: boolean
+      , string: string
+      })
+
+      const result = soa.addWithDefaultValues(2)
+
+      expect(result).toStrictEqual([0, 1])
+      expect(soa.size).toBe(2)
+      expect(soa.get(0, 'integer')).toBe(0)
+      expect(soa.get(0, 'boolean')).toBe(false)
+      expect(soa.get(0, 'string')).toBe('')
+      expect(soa.get(1, 'integer')).toBe(0)
+      expect(soa.get(1, 'boolean')).toBe(false)
+      expect(soa.get(1, 'string')).toBe('')
+    })
+
+    test('SoA has deleted items', () => {
+      const soa = new StructureOfSparseMaps({
+        integer: int8
+      , boolean: boolean
+      , string: string
+      })
+      soa.add(
+        {
+          integer: 0
+        , boolean: true
+        , string: 'string'
+        }
+      , {
+          integer: 1
+        , boolean: true
+        , string: 'string'
+        }
+      )
+      soa.delete(0)
+
+      const result = soa.addWithDefaultValues(2)
+
+      expect(result).toStrictEqual([0, 2])
+      expect(soa.size).toBe(3)
+      expect(soa.get(0, 'integer')).toBe(0)
+      expect(soa.get(0, 'boolean')).toBe(false)
+      expect(soa.get(0, 'string')).toBe('')
+      expect(soa.get(1, 'integer')).toBe(1)
+      expect(soa.get(1, 'boolean')).toBe(true)
+      expect(soa.get(1, 'string')).toBe('string')
+      expect(soa.get(2, 'integer')).toBe(0)
+      expect(soa.get(2, 'boolean')).toBe(false)
+      expect(soa.get(2, 'string')).toBe('')
+    })
+  })
+
   describe('add', () => {
     test('SoA is empty', () => {
       const soa = new StructureOfSparseMaps({
@@ -467,7 +523,9 @@ describe('StructureOfSparseMaps', () => {
 
       expect(result).toStrictEqual([0, 2])
       expect(soa.size).toBe(3)
-      expect(soa.has(0)).toBe(true)
+      expect(soa.get(0, 'integer')).toBe(2)
+      expect(soa.get(0, 'boolean')).toBe(true)
+      expect(soa.get(0, 'string')).toBe('string')
       expect(soa.get(1, 'integer')).toBe(1)
       expect(soa.get(1, 'boolean')).toBe(true)
       expect(soa.get(1, 'string')).toBe('string')
