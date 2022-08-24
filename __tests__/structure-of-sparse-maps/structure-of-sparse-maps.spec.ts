@@ -146,6 +146,86 @@ describe('StructureOfSparseMaps', () => {
     })
   })
 
+  describe('getInternalIndex', () => {
+    test('index exists', () => {
+      const soa = new StructureOfSparseMaps({
+        integer: int8
+      , string: string
+      })
+      soa.add(
+        { integer: 0, string: '' } // 0
+      , { integer: 1, string: '1' } // 1
+      )
+      soa.delete(0)
+      soa.add(
+        { integer: 2, string: '2' } // 0
+      , { integer: 3, string: '3' } // 2
+      )
+
+      const result1 = soa.getInternalIndex(0)
+      const result2 = soa.getInternalIndex(1)
+      const result3 = soa.getInternalIndex(2)
+
+      expect(result1).toBe(1)
+      expect(result2).toBe(0)
+      expect(result3).toBe(2)
+      expect(soa.arrays.integer[result1]).toBe(2)
+      expect(soa.arrays.integer[result2]).toBe(1)
+      expect(soa.arrays.integer[result3]).toBe(3)
+    })
+
+    test('index does not exist', () => {
+      const soa = new StructureOfSparseMaps({
+        integer: int8
+      , string: string
+      })
+
+      const err = getError(() => soa.getInternalIndex(0))
+
+      expect(err).toBeInstanceOf(RangeError)
+    })
+  })
+
+  describe('tryGetInternalIndex', () => {
+    test('index exists', () => {
+      const soa = new StructureOfSparseMaps({
+        integer: int8
+      , string: string
+      })
+      soa.add(
+        { integer: 0, string: '' } // 0
+      , { integer: 1, string: '1' } // 1
+      )
+      soa.delete(0)
+      soa.add(
+        { integer: 2, string: '2' } // 0
+      , { integer: 3, string: '3' } // 2
+      )
+
+      const result1 = soa.tryGetInternalIndex(0)!
+      const result2 = soa.tryGetInternalIndex(1)!
+      const result3 = soa.tryGetInternalIndex(2)!
+
+      expect(result1).toBe(1)
+      expect(result2).toBe(0)
+      expect(result3).toBe(2)
+      expect(soa.arrays.integer[result1]).toBe(2)
+      expect(soa.arrays.integer[result2]).toBe(1)
+      expect(soa.arrays.integer[result3]).toBe(3)
+    })
+
+    test('index does not exist', () => {
+      const soa = new StructureOfSparseMaps({
+        integer: int8
+      , string: string
+      })
+
+      const result = soa.tryGetInternalIndex(0)
+
+      expect(result).toBe(undefined)
+    })
+  })
+
   describe('has', () => {
     test('index exists', () => {
       const soa = new StructureOfSparseMaps({

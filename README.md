@@ -188,6 +188,10 @@ class StructureOfSparseMaps<T extends Structure> {
 
   has(index: number): boolean
 
+  getInternalIndex(externalIndex: number): number
+
+  tryGetInternalIndex(externalIndex: number): number | undefined
+
   /**
    * @throws {RangeError}
    */

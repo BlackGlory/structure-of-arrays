@@ -8,7 +8,7 @@ import {
 , MapStructureToInternalArrays
 , MapStructureToPrimitive
 } from '@src/types'
-import { ValueOfContainer, StructureContainers } from './types'
+import { ValueOfContainer, StructureContainers, Container } from './types'
 import { create, get, set } from './utils'
 
 export class StructureOfSparseMaps<T extends Structure> {
@@ -19,6 +19,7 @@ export class StructureOfSparseMaps<T extends Structure> {
   private keyToContainer: StructureContainers<T>
   private usedIndexes = new Set<number>()
   private recycledIndexes = new Set<number>()
+  private firstContainer: Container
 
   /**
    * 数组中的项目数量 = 数组非空元素的数量
@@ -29,9 +30,9 @@ export class StructureOfSparseMaps<T extends Structure> {
 
   constructor(structure: T) {
     const keys = Object.keys(structure)
-    assert(isntEmptyArray(keys), 'structure should have at least one property')
+    assert(isntEmptyArray(keys), 'The structure should have at least one property')
 
-    const keyToContainer: Record<string, unknown> = {}
+    const keyToContainer: Record<string, Container> = {}
 
     for (const key of keys) {
       const constructor = structure[key]
@@ -41,6 +42,7 @@ export class StructureOfSparseMaps<T extends Structure> {
 
     this.keys = keys
     this.keyToContainer = keyToContainer as StructureContainers<T>
+    this.firstContainer = keyToContainer[keys[0]]
     this.arrays = go(() => {
       // 通过原型在V8优化defineProperty
       // https://stackoverflow.com/questions/36338289/object-descriptor-getter-setter-performance-in-recent-chrome-v8-versions
@@ -69,6 +71,23 @@ export class StructureOfSparseMaps<T extends Structure> {
     return this.usedIndexes.has(index)
   }
 
+  getInternalIndex(externalIndex: number): number {
+    if (this.usedIndexes.has(externalIndex)) {
+      return this.firstContainer.getInternalIndexOfKey(externalIndex)!
+    } else {
+      throw new RangeError('The external index is not used')
+    }
+  }
+
+  tryGetInternalIndex(externalIndex: number): number | undefined {
+    try {
+      return this.getInternalIndex(externalIndex)
+    } catch (e) {
+      if (e instanceof RangeError) return undefined
+      throw e
+    }
+  }
+
   /**
    * @throws {RangeError}
    */
@@ -78,7 +97,7 @@ export class StructureOfSparseMaps<T extends Structure> {
       const value = get(container, index)
       return value as unknown as PrimitiveOfType<T[U]>
     } else {
-      throw new RangeError('index is not used')
+      throw new RangeError('The index is not used')
     }
   }
 
@@ -154,7 +173,7 @@ export class StructureOfSparseMaps<T extends Structure> {
       const container = this.keyToContainer[key]
       set(container, index, value)
     } else {
-      throw new RangeError('index is not used')
+      throw new RangeError('The index is not used')
     }
   }
 

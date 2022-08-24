@@ -9,7 +9,7 @@ import {
 , MapStructureToInternalArrays
 , MapStructureToPrimitive
 } from '@src/types'
-import { ValueOfContainer, StructureContainers } from './types'
+import { ValueOfContainer, StructureContainers, Container } from './types'
 import { create, get, pop, push, set } from './utils'
 
 export class StructureOfArrays<T extends Structure> {
@@ -37,9 +37,9 @@ export class StructureOfArrays<T extends Structure> {
 
   constructor(structure: T) {
     const keys = Object.keys(structure)
-    assert(isntEmptyArray(keys), 'structure should have at least one property')
+    assert(isntEmptyArray(keys), 'The structure should have at least one property')
 
-    const keyToContainer: Record<string, unknown> = {}
+    const keyToContainer: Record<string, Container> = {}
 
     for (const key of keys) {
       const constructor = structure[key]
