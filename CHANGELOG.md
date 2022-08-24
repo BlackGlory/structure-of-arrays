@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.1](https://github.com/BlackGlory/structure-of-arrays/compare/v0.4.0...v0.4.1) (2022-08-24)
+
+
+### Features
+
+* add getInternalIndex, tryGetInternalIndex ([2b8daa2](https://github.com/BlackGlory/structure-of-arrays/commit/2b8daa241b8b722f23bfbdb4f9fe3460b71126fa))
+
 ## [0.4.0](https://github.com/BlackGlory/structure-of-arrays/compare/v0.3.3...v0.4.0) (2022-08-23)
 
 
