@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://github.com/BlackGlory/structure-of-arrays/compare/v0.5.0...v0.5.1) (2022-08-24)
+
+
+### Features
+
+* make the `structure` parameters of `upsert` optional ([cd56421](https://github.com/BlackGlory/structure-of-arrays/commit/cd56421fc21f76486f1fbfb1001ad1bcc3435a25))
+
 ## [0.5.0](https://github.com/BlackGlory/structure-of-arrays/compare/v0.4.2...v0.5.0) (2022-08-24)
 
 
