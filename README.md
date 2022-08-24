@@ -151,7 +151,7 @@ class StructureOfArrays<T extends Stucture> {
   /**
    * Insert or update an item based on index.
    */
-  upsert(index: number, structure: MapStructureToPrimitive<T>): void
+  upsert(index: number, structure?: MapStructureToPrimitive<T>): void
 
   /**
    * @throws {RangeError}
@@ -219,7 +219,7 @@ class StructureOfSparseMaps<T extends Structure> {
   /**
    * Insert or update an item based on index.
    */
-  upsert(index: number, structure: MapStructureToPrimitive<T>): void
+  upsert(index: number, structure?: MapStructureToPrimitive<T>): void
 
   /**
    * @throws {RangeError}

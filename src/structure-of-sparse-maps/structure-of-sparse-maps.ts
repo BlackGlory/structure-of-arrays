@@ -161,7 +161,10 @@ export class StructureOfSparseMaps<T extends Structure> {
   /**
    * Insert or update an item based on index.
    */
-  upsert(index: number, structure: MapTypesOfStructureToPrimitives<T>): void {
+  upsert(
+    index: number
+  , structure: MapTypesOfStructureToPrimitives<T> = this.defaultValuesOfStructure
+  ): void {
     for (const [key, value] of Object.entries(structure)) {
       const container = this.keyToContainer[key]
       set(container, index, value)

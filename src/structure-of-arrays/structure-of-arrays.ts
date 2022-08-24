@@ -198,7 +198,10 @@ export class StructureOfArrays<T extends Structure> {
   /**
    * Insert or update an item based on index.
    */
-  upsert(index: number, structure: MapTypesOfStructureToPrimitives<T>): void {
+  upsert(
+    index: number
+  , structure: MapTypesOfStructureToPrimitives<T> = this.defaultValuesOfStructure
+  ): void {
     if (index >= this.length) {
       this._length = index + 1
     }
