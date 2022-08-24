@@ -14,4 +14,6 @@ export {
 , string
 , Structure
 , MapTypesOfStructureToPrimitives
+, MapTypesOfStructureToInternalArrays
+, InternalArrayOfType
 } from './types'
