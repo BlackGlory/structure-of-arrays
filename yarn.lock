@@ -701,14 +701,6 @@
   resolved "https://registry.yarnpkg.com/@blackglory/go/-/go-1.0.0.tgz#8b4ae3234f6d3a78e3bdac40ff103d4935794a1a"
   integrity sha512-SFMYSrcA372VJSEpBKV7agNiixq286oCWNP9Sv/FQlPsHYM3TQKx1CM4dl+TO/vN9BlAbcs4MQ4ezqlLXxM/cg==
 
-"@blackglory/go@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@blackglory/go/-/go-1.1.1.tgz#86b4a1197a621f64c79d3f63ef4ea8d4d8d9ca2a"
-  integrity sha512-hHzNj9QlAhy/pXWTi1BpdcTuSlDlk/RvuO7vM2sAIek5Bqa2I8E4I1FeSG25EmIC5ob9V3l8Xptno6ZUzEi04A==
-  dependencies:
-    extra-timers "^0.2.5"
-    justypes "^2.0.0"
-
 "@blackglory/go@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@blackglory/go/-/go-1.1.2.tgz#bb76676dc5938d2ef28daea82f198e7fee4bcc92"
@@ -748,6 +740,11 @@
   resolved "https://registry.yarnpkg.com/@blackglory/pass/-/pass-1.0.0.tgz#3b464433c0744c2dfa40ecbeaf6ab5fde1d13f83"
   integrity sha512-+R6qGmCrls+swn00S/BKbC8NNoIeG3eGOi4P6i8YOQGaBKNpu4GqufmclYqlGMKYNjl3rbye1k/OMy8eppSfjw==
 
+"@blackglory/pass@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@blackglory/pass/-/pass-1.0.1.tgz#bbb7b6ac48ff23a06415bd0fe9fb1d713b194860"
+  integrity sha512-uR857ZFp7QSzwYd8rV3N4sxtTNXXjcdSnIxGv/Krf/pwPCXRQVAwb5z2lpsS68XUS0utWTGZKseYs0AvcmFoRw==
+
 "@blackglory/prelude@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@blackglory/prelude/-/prelude-0.1.0.tgz#f567bf746cf38b38b757902480b4a4c145a5fbfa"
@@ -762,24 +759,24 @@
     iterable-operator "^1.0.0"
     justypes "^2.0.0"
 
-"@blackglory/prelude@^0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@blackglory/prelude/-/prelude-0.1.3.tgz#2a24a646e4a51b9cc62c4bf31a92de01648be793"
-  integrity sha512-IMdas/JBevCypbaVSe0IQK3oYQegC6WqOjTckqrpdM+iviXGKaHoTd3lijOcCf9jYYyOFmKt0yk1IwDUHkaKNQ==
+"@blackglory/prelude@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@blackglory/prelude/-/prelude-0.1.4.tgz#3cf06b5b809ebbd608da1f37edd47df222613abd"
+  integrity sha512-tRZcr2Wva0aiEBGFvkYcRKF7ktMUkUeEht5e90iwtX9Qo/pBIvb/sQNB4ykmKYSb8kT+ohdG60ZDivVtwIHiVw==
   dependencies:
-    "@blackglory/errors" "^2.2.1"
-    "@blackglory/go" "^1.1.1"
+    "@blackglory/errors" "^2.2.2"
+    "@blackglory/go" "^1.1.2"
     "@blackglory/log" "^1.2.0"
-    "@blackglory/pass" "^1.0.0"
-    "@blackglory/types" "^1.2.1"
-    extra-lazy "^1.1.1"
-    iterable-operator "^1.1.0"
-    justypes "^2.0.0"
+    "@blackglory/pass" "^1.0.1"
+    "@blackglory/types" "^1.3.0"
+    extra-lazy "^1.3.1"
+    iterable-operator "^1.2.1"
+    justypes "^2.2.0"
 
-"@blackglory/structures@^0.10.11":
-  version "0.10.11"
-  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.10.11.tgz#1e5a47466b38949c788b926e16582a0f7a8906a4"
-  integrity sha512-+pS0YTlwv72Fbxb12JDgwqZ/IEKHQDU2fojVPo4Z35MkqAwC891953wpfUhsuXTSLa5RCaUaE47k3dl3SecFzQ==
+"@blackglory/structures@^0.10.12":
+  version "0.10.12"
+  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.10.12.tgz#7fa86c7d9b6ca63e544a6907c67acf034f8c9f02"
+  integrity sha512-Un6R3XCIRxl58/VZa61lmTxz8EokFdZIgFyHw9svW1Q3SDFJrTZkSX0OU9SssIOrattJekhEWUosdZJF03R1NA==
   dependencies:
     "@blackglory/errors" "^2.2.1"
     "@blackglory/types" "^1.2.1"
@@ -827,6 +824,14 @@
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-1.2.1.tgz#7047127bc35e1fcdaeaed392b5cfaca9076e5c5a"
   integrity sha512-+31NsGumAkAdG5LGh5JQqthXKauQ4+kMgTOvQVMCbQfhH2CQPY6bkrmMTVG25SoCHQZaTZ7XFJNXIxFOPLZHXg==
+  dependencies:
+    justypes "^2.0.0"
+    lodash "^4.17.21"
+
+"@blackglory/types@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-1.3.0.tgz#32fbdc95fff4b15609942e8b87f1a5490b7b0c71"
+  integrity sha512-qW9nWqmQT3ShT2NYP3p2ohpPvs+wS+YfOXbKbf37HTdWJOGuCafMSa7laMJF0BnBJwwTr+uyJSZru+QMMmgvUg==
   dependencies:
     justypes "^2.0.0"
     lodash "^4.17.21"
@@ -1313,10 +1318,10 @@
     "@rollup/pluginutils" "^3.1.0"
     magic-string "^0.25.7"
 
-"@rollup/plugin-typescript@^8.3.4":
-  version "8.3.4"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-typescript/-/plugin-typescript-8.3.4.tgz#45cdc0787b658b37d0362c705d8de86bc8bc040e"
-  integrity sha512-wt7JnYE9antX6BOXtsxGoeVSu4dZfw0dU3xykfOQ4hC3EddxRbVG/K0xiY1Wup7QOHJcjLYXWAn0Kx9Z1SBHHg==
+"@rollup/plugin-typescript@^8.4.0":
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-typescript/-/plugin-typescript-8.4.0.tgz#a8a384b6dbaab42b4cafb075278b15743c0f5ef8"
+  integrity sha512-QssfoOP6V4/6skX12EfOW5UzJAv/c334F4OJWmQpe2kg3agEa0JwVCckwmfuvEgDixyX+XyxjFenH7M2rDKUyQ==
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     resolve "^1.17.0"
@@ -2995,10 +3000,10 @@ extra-lazy@^1.0.0:
   dependencies:
     lodash "^4.17.21"
 
-extra-lazy@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/extra-lazy/-/extra-lazy-1.1.1.tgz#47983311aa339caf985c3b169565024585a44d5f"
-  integrity sha512-lkSqIqohXIo0MUByHLCk7EmFbMVrpoIltcBGV5TwZUJASsDgmvPUEruGR0Idp5TZaFwtS8B+ymBIrZpWJtZMhw==
+extra-lazy@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/extra-lazy/-/extra-lazy-1.3.1.tgz#f8d74084e8806a6c1906ef292b4d6834e0b35517"
+  integrity sha512-C55Cr/dQWQHdwuMTF+ySNMYqydVclmKdgFHoC/8gTu5Zoe1Nrx6jgArwfZ+7jKU78VjDfhrkGAJ38ucf0lozeQ==
 
 extra-promise@^1.0.0:
   version "1.0.2"
