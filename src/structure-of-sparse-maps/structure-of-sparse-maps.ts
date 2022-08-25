@@ -1,5 +1,5 @@
 import { go, assert, isntEmptyArray } from '@blackglory/prelude'
-import { take, toArray } from 'iterable-operator'
+import { take, toArray, first } from 'iterable-operator'
 import { TypedSparseMap, SparseMap } from '@blackglory/structures'
 import {
   PrimitiveOfType
@@ -67,8 +67,10 @@ export class StructureOfSparseMaps<T extends Structure> {
     })
   }
 
+  // 经过优化, 返回有利于遍历数组的key
   indexes(): Iterable<number> {
-    return this.usedIndexes.keys()
+    const container: Container = first(Object.values(this.keyToContainer))
+    return container.keys()
   }
 
   has(index: number): boolean {
