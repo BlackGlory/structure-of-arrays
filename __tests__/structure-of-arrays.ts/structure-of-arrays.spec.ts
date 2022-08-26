@@ -78,6 +78,18 @@ describe('StructureOfArrays', () => {
     })
   })
 
+  test('keys', () => {
+    const soa = new StructureOfArrays({
+      integer: int8
+    , boolean: boolean
+    , string: string
+    })
+
+    const result = soa.keys
+
+    expect(result).toStrictEqual(['integer', 'boolean', 'string'])
+  })
+
   describe('indexes', () => {
     test('SoA is empty', () => {
       const soa = new StructureOfArrays({

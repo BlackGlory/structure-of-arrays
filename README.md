@@ -112,6 +112,7 @@ class StructureOfArrays<T extends Stucture> {
    * you must make sure that indexes being accessed are within bounds and not deleted.
    */
   readonly arrays: MapStructureToInternalArrays<T>
+  readonly keys: string[]
 
   get length(): number
   get size(): number
@@ -186,6 +187,7 @@ type StructureContainers<T extends Structure> = {
 
 class StructureOfSparseMaps<T extends Structure> {
   readonly arrays: MapStructureToInternalArrays<T>
+  readonly keys: string[]
 
   get size(): number
 
@@ -193,6 +195,8 @@ class StructureOfSparseMaps<T extends Structure> {
     structure: T
   , defaultValuesOfStructure?: MapTypesOfStructureToPrimitives<T>
   )
+
+  keys(): Iterable<string>
 
   indexes(): Iterable<number>
 

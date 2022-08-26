@@ -14,9 +14,9 @@ import { createDefaultValueOfStructure } from '@src/utils'
 
 export class StructureOfSparseMaps<T extends Structure> {
   readonly arrays: MapTypesOfStructureToInternalArrays<T>
+  readonly keys: string[]
 
   private _length: number = 0
-  private keys: string[]
   private keyToContainer: StructureContainers<T>
   private usedIndexes = new Set<number>()
   private recycledIndexes = new Set<number>()

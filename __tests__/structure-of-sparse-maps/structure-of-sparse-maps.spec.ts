@@ -77,6 +77,18 @@ describe('StructureOfSparseMaps', () => {
     })
   })
 
+  test('keys', () => {
+    const soa = new StructureOfSparseMaps({
+      integer: int8
+    , boolean: boolean
+    , string: string
+    })
+
+    const result = soa.keys
+
+    expect(result).toStrictEqual(['integer', 'boolean', 'string'])
+  })
+
   describe('indexes', () => {
     test('SoA is empty', () => {
       const soa = new StructureOfSparseMaps({
