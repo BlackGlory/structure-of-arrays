@@ -147,7 +147,7 @@ export class StructureOfArrays<T extends Structure> {
    * Insert items at the end of the array, return indexes.
    */
   push(...structures: Array<MapTypesOfStructureToPrimitives<T>>): number[] {
-    // 为了防止TypedArray多次resize, 将值汇聚在一起后一起push.
+    // 为了防止TypedArray多次resize, 将值汇聚起来一起push.
     const keyToValues: Record<string, Value[]> = Object.fromEntries(
       this.keys.map(key => [key, []])
     )
