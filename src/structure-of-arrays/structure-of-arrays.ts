@@ -21,6 +21,7 @@ export class StructureOfArrays<T extends Structure> {
   private keyToContainer: StructureContainers<T>
   private usedIndexes = new Set<number>()
   private recycledIndexes = new Set<number>()
+  private defaultValues: MapTypesOfStructureToPrimitives<T>
 
   /**
    * 数组的长度 = 数组最后一个非空元素的索引值 + 1
@@ -38,10 +39,13 @@ export class StructureOfArrays<T extends Structure> {
 
   constructor(
     structure: T
-  , private defaultValuesOfStructure: MapTypesOfStructureToPrimitives<T> = createDefaultValueOfStructure(structure)
+  , defaultValuesOfStructure?: MapTypesOfStructureToPrimitives<T>
   ) {
     const keys = Object.keys(structure)
     assert(isntEmptyArray(keys), 'The structure should have at least one property')
+    
+    this.defaultValues = defaultValuesOfStructure
+      ?? createDefaultValueOfStructure(keys, structure)
 
     const keyToContainer: Record<string, Container> = {}
 
@@ -107,7 +111,7 @@ export class StructureOfArrays<T extends Structure> {
 
   addWithDefaultValues(size: number): number[] {
     const structures = new Array<MapTypesOfStructureToPrimitives<T>>(size)
-    structures.fill(this.defaultValuesOfStructure)
+    structures.fill(this.defaultValues)
     return this.add(...structures)
   }
 
@@ -119,8 +123,10 @@ export class StructureOfArrays<T extends Structure> {
     for (let i = 0; i < recycledIndexes.length; i++) {
       const index = recycledIndexes[i]
 
-      for (const [key, value] of Object.entries(structures[i])) {
-        const container = this.keyToContainer[key]
+      const structure = structures[i]
+      for (const key of this.keys) {
+        const value = structure[key]
+        const container: Container = this.keyToContainer[key]
         set(container, index, value)
       }
 
@@ -139,7 +145,7 @@ export class StructureOfArrays<T extends Structure> {
 
   pushWithDefaultValues(size: number): number[] {
     const structures = new Array<MapTypesOfStructureToPrimitives<T>>(size)
-    structures.fill(this.defaultValuesOfStructure)
+    structures.fill(this.defaultValues)
     return this.push(...structures)
   }
 
@@ -200,14 +206,15 @@ export class StructureOfArrays<T extends Structure> {
    */
   upsert(
     index: number
-  , structure: MapTypesOfStructureToPrimitives<T> = this.defaultValuesOfStructure
+  , structure: MapTypesOfStructureToPrimitives<T> = this.defaultValues
   ): void {
     if (index >= this.length) {
       this._length = index + 1
     }
 
-    for (const [key, value] of Object.entries(structure)) {
-      const container = this.keyToContainer[key]
+    for (const key of this.keys) {
+      const value = structure[key]
+      const container: Container = this.keyToContainer[key]
       set(container, index, value)
     }
 

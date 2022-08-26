@@ -16,12 +16,14 @@ import {
 } from './types'
 
 export function createDefaultValueOfStructure<T extends Structure>(
-  structure: T
+  keys: string[]
+, structure: T
 ): MapTypesOfStructureToPrimitives<T> {
   const result: Record<string, unknown> = {}
 
-  for (const [name, type] of Object.entries(structure)) {
-    result[name] = createDefaultValueOfType(type)
+  for (const key of keys) {
+    const type = structure[key]
+    result[key] = createDefaultValueOfType(type)
   }
 
   return result as MapTypesOfStructureToPrimitives<T>

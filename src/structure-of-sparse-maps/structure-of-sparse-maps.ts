@@ -1,5 +1,5 @@
 import { go, assert, isntEmptyArray } from '@blackglory/prelude'
-import { take, toArray, first } from 'iterable-operator'
+import { take, toArray } from 'iterable-operator'
 import { TypedSparseMap, SparseMap } from '@blackglory/structures'
 import {
   PrimitiveOfType
@@ -21,6 +21,7 @@ export class StructureOfSparseMaps<T extends Structure> {
   private usedIndexes = new Set<number>()
   private recycledIndexes = new Set<number>()
   private firstContainer: Container
+  private defaultValues: MapTypesOfStructureToPrimitives<T>
 
   /**
    * 数组中的项目数量 = 数组非空元素的数量
@@ -31,7 +32,7 @@ export class StructureOfSparseMaps<T extends Structure> {
 
   constructor(
     structure: T
-  , private defaultValuesOfStructure: MapTypesOfStructureToPrimitives<T> = createDefaultValueOfStructure(structure)
+  , defaultValuesOfStructure?: MapTypesOfStructureToPrimitives<T>
   ) {
     const keys = Object.keys(structure)
     assert(isntEmptyArray(keys), 'The structure should have at least one property')
@@ -45,6 +46,8 @@ export class StructureOfSparseMaps<T extends Structure> {
     }
 
     this.keys = keys
+    this.defaultValues = defaultValuesOfStructure
+      ?? createDefaultValueOfStructure(keys, structure)
     this.keyToContainer = keyToContainer as StructureContainers<T>
     this.firstContainer = keyToContainer[keys[0]]
     this.arrays = go(() => {
@@ -69,8 +72,7 @@ export class StructureOfSparseMaps<T extends Structure> {
 
   // 经过优化, 返回有利于遍历数组的key
   indexes(): Iterable<number> {
-    const container: Container = first(Object.values(this.keyToContainer))
-    return container.keys()
+    return this.firstContainer.keys()
   }
 
   has(index: number): boolean {
@@ -118,7 +120,7 @@ export class StructureOfSparseMaps<T extends Structure> {
 
   addWithDefaultValues(size: number): number[] {
     const structures = new Array<MapTypesOfStructureToPrimitives<T>>(size)
-    structures.fill(this.defaultValuesOfStructure)
+    structures.fill(this.defaultValues)
     return this.add(...structures)
   }
 
@@ -130,8 +132,10 @@ export class StructureOfSparseMaps<T extends Structure> {
     for (let i = 0; i < recycledIndexes.length; i++) {
       const index = recycledIndexes[i]
 
-      for (const [key, value] of Object.entries(structures[i])) {
-        const container = this.keyToContainer[key]
+      const structure = structures[i]
+      for (const key of this.keys) {
+        const value = structure[key]
+        const container: Container = this.keyToContainer[key]
         set(container, index, value)
       }
 
@@ -147,8 +151,9 @@ export class StructureOfSparseMaps<T extends Structure> {
       for (const structure of remainingStuctures) {
         const index = this._length++
 
-        for (const [key, value] of Object.entries(structure)) {
-          const container = this.keyToContainer[key]
+        for (const key of this.keys) {
+          const value = structure[key]
+          const container: Container = this.keyToContainer[key]
           set(container, index, value)
         }
 
@@ -165,10 +170,11 @@ export class StructureOfSparseMaps<T extends Structure> {
    */
   upsert(
     index: number
-  , structure: MapTypesOfStructureToPrimitives<T> = this.defaultValuesOfStructure
+  , structure: MapTypesOfStructureToPrimitives<T> = this.defaultValues
   ): void {
-    for (const [key, value] of Object.entries(structure)) {
-      const container = this.keyToContainer[key]
+    for (const key of this.keys) {
+      const value = structure[key]
+      const container: Container = this.keyToContainer[key]
       set(container, index, value)
     }
 
