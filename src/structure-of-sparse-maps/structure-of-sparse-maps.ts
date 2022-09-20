@@ -1,6 +1,6 @@
 import { go, assert, isntEmptyArray } from '@blackglory/prelude'
 import { take, toArray } from 'iterable-operator'
-import { TypedSparseMap, SparseMap } from '@blackglory/structures'
+import { TypedSparseMap, SparseMap, BitSet } from '@blackglory/structures'
 import {
   PrimitiveOfType
 , InternalArrayOfType
@@ -18,8 +18,8 @@ export class StructureOfSparseMaps<T extends Structure> {
 
   private _length: number = 0
   private keyToContainer: StructureContainers<T>
-  private usedIndexes = new Set<number>()
-  private recycledIndexes = new Set<number>()
+  private usedIndexes = new BitSet(256)
+  private recycledIndexes = new BitSet(256)
   private firstContainer: Container
   private defaultValues: MapTypesOfStructureToPrimitives<T>
 
