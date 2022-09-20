@@ -66,9 +66,9 @@
     "typescript": "^4.8.2"
   },
   "dependencies": {
-    "@blackglory/prelude": "^0.1.4",
-    "@blackglory/structures": "^0.10.14",
+    "@blackglory/prelude": "^0.1.5",
+    "@blackglory/structures": "^0.10.17",
     "iterable-operator": "^1.2.1",
-    "justypes": "^2.2.0"
+    "justypes": "^3.0.0"
   }
 }
