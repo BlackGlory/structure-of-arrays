@@ -119,9 +119,9 @@ export class StructureOfArrays<T extends Structure> {
    * Insert items that reuse deleted indexes, return indexes.
    */
   add(...structures: Array<MapTypesOfStructureToPrimitives<T>>): number[] {
-    const recycledIndexes = this.findRecycledIndexes(structures.length)
-    for (let i = 0; i < recycledIndexes.length; i++) {
-      const index = recycledIndexes[i]
+    const reusableIndexes = this.findRecycledIndexes(structures.length)
+    for (let i = 0; i < reusableIndexes.length; i++) {
+      const index = reusableIndexes[i]
 
       const structure = structures[i]
       for (const key of this.keys) {
@@ -134,12 +134,12 @@ export class StructureOfArrays<T extends Structure> {
       this.recycledIndexes.delete(index)
     }
 
-    const remainingStuctures = structures.slice(recycledIndexes.length)
+    const remainingStuctures = structures.slice(reusableIndexes.length)
     if (remainingStuctures.length === 0) {
-      return recycledIndexes
+      return reusableIndexes
     } else {
       const pushedIndexes = this.push(...remainingStuctures)
-      return [...recycledIndexes, ...pushedIndexes]
+      return [...reusableIndexes, ...pushedIndexes]
     }
   }
 
