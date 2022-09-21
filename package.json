@@ -67,7 +67,7 @@
   },
   "dependencies": {
     "@blackglory/prelude": "^0.1.5",
-    "@blackglory/structures": "^0.10.19",
+    "@blackglory/structures": "^0.10.20",
     "iterable-operator": "^1.2.1",
     "justypes": "^3.0.0"
   }

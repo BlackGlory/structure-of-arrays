@@ -18,8 +18,8 @@ export class StructureOfSparseMaps<T extends Structure> {
 
   private _length: number = 0
   private keyToContainer: StructureContainers<T>
-  private usedIndexes = new BitSet(256)
-  private recycledIndexes = new BitSet(256)
+  private usedIndexes = new BitSet()
+  private recycledIndexes = new BitSet()
   private firstContainer: Container
   private defaultValues: MapTypesOfStructureToPrimitives<T>
 
