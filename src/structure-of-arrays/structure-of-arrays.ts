@@ -20,7 +20,7 @@ export class StructureOfArrays<T extends Structure> {
   private _length: number = 0
   private keyToContainer: StructureContainers<T>
   private usedIndexes = new BitSet()
-  private recycledIndexes = new BitSet()
+  private recycledIndexes = new Set<number>()
   private defaultValues: MapTypesOfStructureToPrimitives<T>
 
   /**
@@ -58,23 +58,21 @@ export class StructureOfArrays<T extends Structure> {
     this.keys = keys
     this.keyToContainer = keyToContainer as StructureContainers<T>
     this.arrays = go(() => {
-      // 通过原型在V8优化defineProperty
-      // https://stackoverflow.com/questions/36338289/object-descriptor-getter-setter-performance-in-recent-chrome-v8-versions
-      const internalArrays = {}
+      const internalArrays: Record<string, unknown> = {}
 
       keys.forEach(key => {
         const container = this.keyToContainer[key]
-        Object.defineProperty(internalArrays, key, {
-          get: isArray(container)
-               ? () => (
-                   container as string[] | boolean[] as InternalArrayOfType<T[keyof T]>
-                 )
-               : () => (
-                   this.keyToContainer[key] as DynamicTypedArray<any>
-                 ).internalTypedArray as InternalArrayOfType<T[keyof T]>
-        })
+        if (isArray(container)) {
+          internalArrays[key] = container as string[] | boolean[] as InternalArrayOfType<T[keyof T]>
+        } else {
+          Object.defineProperty(internalArrays, key, {
+            get: () => (container as DynamicTypedArray<any>).internalTypedArray as InternalArrayOfType<T[keyof T]>
+          })
+        }
       })
 
+      // 通过原型在V8优化defineProperty
+      // https://stackoverflow.com/questions/36338289/object-descriptor-getter-setter-performance-in-recent-chrome-v8-versions
       return Object.create(internalArrays) as MapTypesOfStructureToInternalArrays<T>
     })
   }
