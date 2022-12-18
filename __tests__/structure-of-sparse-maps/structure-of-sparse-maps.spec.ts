@@ -2,7 +2,6 @@ import { StructureOfSparseMaps } from '@src/structure-of-sparse-maps/structure-o
 import { int8, string, boolean } from '@src/types'
 import { toArray } from 'iterable-operator'
 import { getError } from 'return-style'
-import '@blackglory/jest-matchers'
 
 describe('StructureOfSparseMaps', () => {
   describe('create', () => {
@@ -98,10 +97,9 @@ describe('StructureOfSparseMaps', () => {
       })
 
       const iter = soa.indexes()
-      const arr = toArray(iter)
+      const result = toArray(iter)
 
-      expect(iter).toBeIterable()
-      expect(arr).toStrictEqual([])
+      expect(result).toStrictEqual([])
     })
 
     test('SoA has deleted items', () => {
@@ -125,10 +123,9 @@ describe('StructureOfSparseMaps', () => {
       soa.delete(0)
 
       const iter = soa.indexes()
-      const arr = toArray(iter)
+      const result = toArray(iter)
 
-      expect(iter).toBeIterable()
-      expect(arr).toStrictEqual([1])
+      expect(result).toStrictEqual([1])
     })
 
     test('SoA is non-empty', () => {
@@ -151,10 +148,9 @@ describe('StructureOfSparseMaps', () => {
       )
 
       const iter = soa.indexes()
-      const arr = toArray(iter)
+      const result = toArray(iter)
 
-      expect(iter).toBeIterable()
-      expect(arr).toStrictEqual([0, 1])
+      expect(result).toStrictEqual([0, 1])
     })
   })
 

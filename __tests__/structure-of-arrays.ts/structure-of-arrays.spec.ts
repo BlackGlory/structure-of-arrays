@@ -2,7 +2,6 @@ import { StructureOfArrays } from '@src/structure-of-arrays/structure-of-arrays'
 import { int8, string, boolean } from '@src/types'
 import { toArray } from 'iterable-operator'
 import { getError } from 'return-style'
-import '@blackglory/jest-matchers'
 
 describe('StructureOfArrays', () => {
   describe('create', () => {
@@ -99,10 +98,9 @@ describe('StructureOfArrays', () => {
       })
 
       const iter = soa.indexes()
-      const arr = toArray(iter)
+      const result = toArray(iter)
 
-      expect(iter).toBeIterable()
-      expect(arr).toStrictEqual([])
+      expect(result).toStrictEqual([])
     })
 
     test('SoA has deleted items', () => {
@@ -126,10 +124,9 @@ describe('StructureOfArrays', () => {
       soa.delete(0)
 
       const iter = soa.indexes()
-      const arr = toArray(iter)
+      const result = toArray(iter)
 
-      expect(iter).toBeIterable()
-      expect(arr).toStrictEqual([1])
+      expect(result).toStrictEqual([1])
     })
 
     test('SoA is non-empty', () => {
@@ -152,10 +149,9 @@ describe('StructureOfArrays', () => {
       )
 
       const iter = soa.indexes()
-      const arr = toArray(iter)
+      const result = toArray(iter)
 
-      expect(iter).toBeIterable()
-      expect(arr).toStrictEqual([0, 1])
+      expect(result).toStrictEqual([0, 1])
     })
   })
 
