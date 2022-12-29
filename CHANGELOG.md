@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/BlackGlory/structure-of-arrays/compare/v0.5.12...v0.6.0) (2022-12-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* The minimal version of Node.js is 16
+
+### Features
+
+* add `clear` methods ([c0452ca](https://github.com/BlackGlory/structure-of-arrays/commit/c0452cad5cffc9e70c3625e4f6ca320930f14a3f))
+
+
+* upgrade dependencies ([1eef2ef](https://github.com/BlackGlory/structure-of-arrays/commit/1eef2ef45074828039acdbad48158800da3b97dd))
+
 ### [0.5.12](https://github.com/BlackGlory/structure-of-arrays/compare/v0.5.11...v0.5.12) (2022-11-11)
 
 ### [0.5.11](https://github.com/BlackGlory/structure-of-arrays/compare/v0.5.10...v0.5.11) (2022-09-24)
