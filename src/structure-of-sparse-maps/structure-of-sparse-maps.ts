@@ -231,7 +231,13 @@ export class StructureOfSparseMaps<T extends Structure> {
     }
   }
 
+  // 注意, 此方法是部分方法的性能瓶颈, 需要特别关注它的性能表现.
   private findRecycledIndexes(count: number): number[] {
-    return toArray(take(this.recycledIndexes, count))
+    // 通过尽早处理一些情况来避免使用迭代器, 该分支语句同时有利于分支预测.
+    if (count && this.recycledIndexes.size) {
+      return toArray(take(this.recycledIndexes, count))
+    } else {
+      return []
+    }
   }
 }
