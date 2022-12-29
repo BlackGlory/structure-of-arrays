@@ -699,4 +699,23 @@ describe('StructureOfSparseMaps', () => {
       expect(soa.has(0)).toBe(false)
     })
   })
+
+  test('clear', () => {
+    const soa = new StructureOfSparseMaps({
+      integer: int8
+    , boolean: boolean
+    , string: string
+    })
+    soa.add({
+      integer: 0
+    , boolean: false
+    , string: ''
+    })
+
+    soa.clear()
+
+    expect(toArray(soa.indexes())).toStrictEqual([])
+    expect(soa.size).toBe(0)
+    expect(soa.has(0)).toBe(false)
+  })
 })

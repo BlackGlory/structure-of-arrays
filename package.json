@@ -16,6 +16,7 @@
     "node": ">=16"
   },
   "scripts": {
+    "deduplicate": "yarn-deduplicate",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src __tests__",
     "test": "jest --runInBand --config jest.config.js",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
@@ -29,6 +30,7 @@
     "build:es2018": "run-s build:es2018:*",
     "build:es2018:compile": "tsc --project tsconfig.build.json --module commonjs --target es2018 --outDir lib/es2018",
     "build:es2018:patch": "tscpaths -p tsconfig.build.json -s ./src -o ./lib/es2018",
+    "bench": "ts-node --require tsconfig-paths/register benches/index.ts",
     "release": "standard-version"
   },
   "husky": {
@@ -44,6 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
     "eslint": "^8.30.0",
+    "extra-benchmark": "^0.2.2",
     "husky": "^4.3.8",
     "jest": "^29.3.1",
     "npm-run-all": "^4.1.5",
@@ -51,13 +54,16 @@
     "rimraf": "^3.0.2",
     "standard-version": "^9.5.0",
     "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.1",
     "tscpaths": "^0.0.9",
     "tslib": "^2.4.1",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "yarn-deduplicate": "^6.0.1"
   },
   "dependencies": {
     "@blackglory/prelude": "^0.2.0",
-    "@blackglory/structures": "^0.12.0",
+    "@blackglory/structures": "^0.12.2",
     "iterable-operator": "^3.1.0",
     "justypes": "^4.0.0"
   }

@@ -170,6 +170,8 @@ class StructureOfArrays<T extends Stucture> {
   ): boolean
 
   delete(index: number): void
+
+  clear(): void
 }
 ```
 
@@ -241,5 +243,7 @@ class StructureOfSparseMaps<T extends Structure> {
   ): boolean
 
   delete(index: number): void
+
+  clear(): void
 }
 ```

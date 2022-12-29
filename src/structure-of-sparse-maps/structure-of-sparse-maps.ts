@@ -16,7 +16,7 @@ export class StructureOfSparseMaps<T extends Structure> {
   readonly arrays: MapTypesOfStructureToInternalArrays<T>
   readonly keys: string[]
 
-  private _length: number = 0
+  private length: number = 0
   private keyToContainer: StructureContainers<T>
   private usedIndexes = new BitSet()
   private recycledIndexes = new Set<number>()
@@ -149,7 +149,7 @@ export class StructureOfSparseMaps<T extends Structure> {
     } else {
       const pushedIndexes: number[] = []
       for (const structure of remainingStuctures) {
-        const index = this._length++
+        const index = this.length++
 
         for (const key of this.keys) {
           const value = structure[key]
@@ -220,6 +220,14 @@ export class StructureOfSparseMaps<T extends Structure> {
 
       this.usedIndexes.delete(index)
       this.recycledIndexes.add(index)
+    }
+  }
+
+  clear(): void {
+    this.usedIndexes.clear()
+    this.recycledIndexes.clear()
+    for (const key of this.keys) {
+      this.keyToContainer[key].clear()
     }
   }
 

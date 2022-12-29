@@ -261,6 +261,20 @@ export class StructureOfArrays<T extends Structure> {
     }
   }
 
+  clear(): void {
+    this._length = 0
+    this.usedIndexes.clear()
+    this.recycledIndexes.clear()
+    for (const key of this.keys) {
+      const container = this.keyToContainer[key]
+      if (isArray(container)) {
+        container.length === 0
+      } else {
+        container.clear()
+      }
+    }
+  }
+
   private findRecycledIndexes(count: number): number[] {
     return toArray(take(this.recycledIndexes, count))
   }
