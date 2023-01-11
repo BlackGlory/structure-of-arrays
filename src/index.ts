@@ -8,8 +8,8 @@ export {
 , uint16
 , int32
 , uint32
-, double
-, float
+, float64
+, float32
 , boolean
 , string
 , Structure

@@ -8,8 +8,8 @@ import {
 , uint16
 , int32
 , uint32
-, float
-, double
+, float32
+, float64
 , boolean
 , string
 } from '@src/types'
@@ -21,8 +21,8 @@ export type Container =
 | TypedSparseMap<typeof uint16>
 | TypedSparseMap<typeof int32>
 | TypedSparseMap<typeof uint32>
-| TypedSparseMap<typeof float>
-| TypedSparseMap<typeof double>
+| TypedSparseMap<typeof float32>
+| TypedSparseMap<typeof float64>
 | SparseMap<boolean>
 | SparseMap<string>
 
@@ -33,8 +33,8 @@ export type ContainerOfType<T extends Type> =
 : T extends typeof uint16 ? TypedSparseMap<typeof uint16>
 : T extends typeof int32 ? TypedSparseMap<typeof int32>
 : T extends typeof uint32 ? TypedSparseMap<typeof uint32>
-: T extends typeof float ? TypedSparseMap<typeof float>
-: T extends typeof double ? TypedSparseMap<typeof double>
+: T extends typeof float32 ? TypedSparseMap<typeof float32>
+: T extends typeof float64 ? TypedSparseMap<typeof float64>
 : T extends typeof boolean ? SparseMap<boolean>
 : T extends typeof string ? SparseMap<string>
 : never

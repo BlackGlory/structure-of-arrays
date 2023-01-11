@@ -9,8 +9,8 @@ import {
 , uint16
 , int32
 , uint32
-, float
-, double
+, float32
+, float64
 , boolean
 , string
 } from './types'
@@ -37,8 +37,8 @@ function createDefaultValueOfType<T extends Type>(type: T): PrimitiveOfType<T> {
     case uint16:
     case int32:
     case uint32:
-    case float:
-    case double:
+    case float32:
+    case float64:
       return 0 as PrimitiveOfType<T>
     case boolean:
       return false as PrimitiveOfType<T>

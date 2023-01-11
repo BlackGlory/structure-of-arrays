@@ -14,8 +14,8 @@ export const int16 = Int16Array
 export const uint16 = Uint16Array
 export const int32 = Int32Array
 export const uint32 = Uint32Array
-export const float = Float32Array
-export const double = Float64Array
+export const float32 = Float32Array
+export const float64 = Float64Array
 export const string = String
 export const boolean = Boolean
 
@@ -31,8 +31,8 @@ export type Type =
 | typeof uint16
 | typeof int32
 | typeof uint32
-| typeof float
-| typeof double
+| typeof float32
+| typeof float64
 | typeof boolean
 | typeof string
 
@@ -55,7 +55,8 @@ export type PrimitiveOfType<T extends Type> =
 : T extends typeof uint16 ? number
 : T extends typeof int32 ? number
 : T extends typeof uint32 ? number
-: T extends typeof double ? number
+: T extends typeof float32 ? number
+: T extends typeof float64 ? number
 : T extends typeof boolean ? boolean
 : T extends typeof string ? string
 : never
@@ -67,8 +68,8 @@ export type InternalArrayOfType<T extends Type> =
 : T extends typeof uint16 ? Uint16Array
 : T extends typeof int32 ? Int32Array
 : T extends typeof uint32 ? Uint32Array
-: T extends typeof float ? Float32Array
-: T extends typeof double ? Float64Array
+: T extends typeof float32 ? Float32Array
+: T extends typeof float64 ? Float64Array
 : T extends typeof boolean ? boolean[]
 : T extends typeof string ? string[]
 : never
