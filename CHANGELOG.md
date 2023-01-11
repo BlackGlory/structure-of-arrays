@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://github.com/BlackGlory/structure-of-arrays/compare/v0.6.1...v0.7.0) (2023-01-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* - Renamed `float` to `float32`
+- Renamed `double` to `float64`
+
+* rename `float` to `float32`, `double` to `float64` ([d8520c3](https://github.com/BlackGlory/structure-of-arrays/commit/d8520c3d5ee51a38dd28b11ce2840b5e4604089e))
+
 ### [0.6.1](https://github.com/BlackGlory/structure-of-arrays/compare/v0.6.0...v0.6.1) (2022-12-29)
 
 ## [0.6.0](https://github.com/BlackGlory/structure-of-arrays/compare/v0.5.12...v0.6.0) (2022-12-29)
