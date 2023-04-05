@@ -1,5 +1,5 @@
-import { create, get, set, push, pop } from '@src/structure-of-arrays/utils'
-import { int8, string } from '@src/types'
+import { create, get, set, push, pop } from '@src/structure-of-arrays/utils.js'
+import { int8, string } from '@src/types.js'
 import { DynamicTypedArray } from '@blackglory/structures'
 
 describe('create', () => {

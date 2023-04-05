@@ -3,8 +3,8 @@ import {
   Type
 , boolean
 , string
-} from '@src/types'
-import { ValueOfContainer, ContainerOfType, Container } from './types'
+} from '@src/types.js'
+import { ValueOfContainer, ContainerOfType, Container } from './types.js'
 import { TypedArrayConstructor } from 'justypes'
 
 export function create<T extends Type>(

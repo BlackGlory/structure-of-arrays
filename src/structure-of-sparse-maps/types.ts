@@ -1,4 +1,4 @@
-import { DynamicTypedArray, SparseMap, TypedSparseMap } from '@blackglory/structures'
+import { SparseMap, TypedSparseMap } from '@blackglory/structures'
 import {
   Structure
 , Type
@@ -12,7 +12,7 @@ import {
 , float64
 , boolean
 , string
-} from '@src/types'
+} from '@src/types.js'
 
 export type Container =
 | TypedSparseMap<typeof int8>

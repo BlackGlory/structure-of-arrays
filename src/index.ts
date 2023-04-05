@@ -1,5 +1,5 @@
-export * from './structure-of-arrays'
-export * from './structure-of-sparse-maps'
+export * from './structure-of-arrays/index.js'
+export * from './structure-of-sparse-maps/index.js'
 export {
   Type
 , int8
@@ -16,4 +16,4 @@ export {
 , MapTypesOfStructureToPrimitives
 , MapTypesOfStructureToInternalArrays
 , InternalArrayOfType
-} from './types'
+} from './types.js'

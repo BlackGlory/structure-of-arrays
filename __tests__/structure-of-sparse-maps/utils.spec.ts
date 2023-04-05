@@ -1,5 +1,5 @@
-import { create, get, set, remove } from '@src/structure-of-sparse-maps/utils'
-import { int8, string } from '@src/types'
+import { create, get, set, remove } from '@src/structure-of-sparse-maps/utils.js'
+import { int8, string } from '@src/types.js'
 import { SparseMap, TypedSparseMap } from '@blackglory/structures'
 
 describe('create', () => {

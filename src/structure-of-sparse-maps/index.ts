@@ -1,1 +1,1 @@
-export { StructureOfSparseMaps } from './structure-of-sparse-maps'
+export { StructureOfSparseMaps } from './structure-of-sparse-maps.js'

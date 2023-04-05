@@ -1,5 +1,5 @@
-import { StructureOfSparseMaps } from '@src/structure-of-sparse-maps/structure-of-sparse-maps'
-import { int8, string, boolean } from '@src/types'
+import { StructureOfSparseMaps } from '@src/structure-of-sparse-maps/structure-of-sparse-maps.js'
+import { int8, string, boolean } from '@src/types.js'
 import { toArray } from 'iterable-operator'
 import { getError } from 'return-style'
 

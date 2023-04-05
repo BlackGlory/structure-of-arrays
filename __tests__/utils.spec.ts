@@ -1,5 +1,5 @@
-import { createDefaultValueOfStructure } from '@src/utils'
-import { Structure, int8, boolean, string } from '@src/types'
+import { createDefaultValueOfStructure } from '@src/utils.js'
+import { Structure, int8, boolean, string } from '@src/types.js'
 
 test('createDefaultValueOfStructure', () => {
   const keys: string[] = ['integer', 'boolean', 'string']

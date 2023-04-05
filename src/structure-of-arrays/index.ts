@@ -1,1 +1,1 @@
-export { StructureOfArrays } from './structure-of-arrays'
+export { StructureOfArrays } from './structure-of-arrays.js'

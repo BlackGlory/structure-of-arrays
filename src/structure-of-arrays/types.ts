@@ -12,7 +12,7 @@ import {
 , float64
 , boolean
 , string
-} from '@src/types'
+} from '@src/types.js'
 
 export type Container =
 | DynamicTypedArray<typeof int8>

@@ -13,7 +13,7 @@ import {
 , float64
 , boolean
 , string
-} from './types'
+} from './types.js'
 
 export function createDefaultValueOfStructure<T extends Structure>(
   keys: string[]

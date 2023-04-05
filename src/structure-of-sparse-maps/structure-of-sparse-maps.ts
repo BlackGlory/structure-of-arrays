@@ -7,10 +7,10 @@ import {
 , Structure
 , MapTypesOfStructureToInternalArrays
 , MapTypesOfStructureToPrimitives
-} from '@src/types'
-import { ValueOfContainer, StructureContainers, Container } from './types'
-import { create, get, set } from './utils'
-import { createDefaultValueOfStructure } from '@src/utils'
+} from '@src/types.js'
+import { ValueOfContainer, StructureContainers, Container } from './types.js'
+import { create, get, set } from './utils.js'
+import { createDefaultValueOfStructure } from '@src/utils.js'
 
 export class StructureOfSparseMaps<T extends Structure> {
   readonly arrays: MapTypesOfStructureToInternalArrays<T>

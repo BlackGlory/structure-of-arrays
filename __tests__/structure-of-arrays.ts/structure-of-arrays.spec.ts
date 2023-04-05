@@ -1,5 +1,5 @@
-import { StructureOfArrays } from '@src/structure-of-arrays/structure-of-arrays'
-import { int8, string, boolean } from '@src/types'
+import { StructureOfArrays } from '@src/structure-of-arrays/structure-of-arrays.js'
+import { int8, string, boolean } from '@src/types.js'
 import { toArray } from 'iterable-operator'
 import { getError } from 'return-style'
 
