@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/BlackGlory/structure-of-arrays/compare/v0.7.0...v0.8.0) (2023-04-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* CommonJS => ESM
+
+* upgrade dependencies ([25d15bd](https://github.com/BlackGlory/structure-of-arrays/commit/25d15bd5ecafbd3854655518ff52142a647eeba0))
+
 ## [0.7.0](https://github.com/BlackGlory/structure-of-arrays/compare/v0.6.1...v0.7.0) (2023-01-11)
 
 
