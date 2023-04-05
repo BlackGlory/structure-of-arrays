@@ -26,8 +26,8 @@
     "prepublishOnly": "run-s prepare clean build",
     "clean": "rimraf lib",
     "build": "tsc --project tsconfig.build.json",
-    "bench": "ts-node --require tsconfig-paths/register benches/index.ts",
-    "bench:debug": "cross-env NODE_OPTIONS=--inspect-brk ts-node --require tsconfig-paths/register benches/index.ts",
+    "bench": "ts-node --esm --require tsconfig-paths/register benches/index.ts",
+    "bench:debug": "cross-env NODE_OPTIONS=--inspect-brk ts-node --esm --require tsconfig-paths/register benches/index.ts",
     "release": "standard-version"
   },
   "husky": {
