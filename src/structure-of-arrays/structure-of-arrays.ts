@@ -12,6 +12,7 @@ import {
 import { ValueOfContainer, StructureContainers, Container } from './types.js'
 import { create, get, pop, push, set } from './utils.js'
 import { createDefaultValueOfStructure } from '@src/utils.js'
+import { TypedArrayConstructor } from 'justypes'
 
 export class StructureOfArrays<T extends Structure> {
   readonly arrays: MapTypesOfStructureToInternalArrays<T>
@@ -66,7 +67,7 @@ export class StructureOfArrays<T extends Structure> {
           internalArrays[key] = container as string[] | boolean[] as InternalArrayOfType<T[keyof T]>
         } else {
           Object.defineProperty(internalArrays, key, {
-            get: () => (container as DynamicTypedArray<any>).internalTypedArray as InternalArrayOfType<T[keyof T]>
+            get: () => (container as DynamicTypedArray<TypedArrayConstructor>).internalTypedArray as InternalArrayOfType<T[keyof T]>
           })
         }
       })

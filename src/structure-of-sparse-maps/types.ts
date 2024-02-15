@@ -13,6 +13,7 @@ import {
 , boolean
 , string
 } from '@src/types.js'
+import { TypedArrayConstructor } from 'justypes'
 
 export type Container =
 | TypedSparseMap<typeof int8>
@@ -41,7 +42,7 @@ export type ContainerOfType<T extends Type> =
 
 
 export type ValueOfContainer<T extends Container> =
-  T extends TypedSparseMap<any> ? number
+  T extends TypedSparseMap<TypedArrayConstructor> ? number
 : T extends SparseMap<boolean> ? boolean
 : T extends SparseMap<string> ? string
 : never

@@ -13,6 +13,7 @@ import {
 , boolean
 , string
 } from '@src/types.js'
+import { TypedArrayConstructor } from 'justypes'
 
 export type Container =
 | DynamicTypedArray<typeof int8>
@@ -41,7 +42,7 @@ export type ContainerOfType<T extends Type> =
 
 
 export type ValueOfContainer<T extends Container> =
-  T extends DynamicTypedArray<any> ? number
+  T extends DynamicTypedArray<TypedArrayConstructor> ? number
 : T extends boolean[] ? boolean
 : T extends string[] ? string
 : never

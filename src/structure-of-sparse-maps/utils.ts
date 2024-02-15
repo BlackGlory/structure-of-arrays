@@ -34,7 +34,7 @@ export function set<T extends Container>(
 , value: ValueOfContainer<T>
 ): void {
   if (container instanceof SparseMap) {
-    (container as SparseMap<any>).set(index, value)
+    (container as SparseMap<unknown>).set(index, value)
   } else {
     container.set(index, value as number)
   }

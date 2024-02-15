@@ -11,6 +11,7 @@ import {
 import { ValueOfContainer, StructureContainers, Container } from './types.js'
 import { create, get, set } from './utils.js'
 import { createDefaultValueOfStructure } from '@src/utils.js'
+import { TypedArrayConstructor } from 'justypes'
 
 export class StructureOfSparseMaps<T extends Structure> {
   readonly arrays: MapTypesOfStructureToInternalArrays<T>
@@ -61,7 +62,7 @@ export class StructureOfSparseMaps<T extends Structure> {
           get: container instanceof SparseMap
              ? () => container.internalArray as InternalArrayOfType<T[keyof T]>
              : () => (
-                 this.keyToContainer[key] as TypedSparseMap<any>
+                 this.keyToContainer[key] as TypedSparseMap<TypedArrayConstructor>
                ).internalTypedArray as InternalArrayOfType<T[keyof T]>
         })
       })

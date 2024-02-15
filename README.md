@@ -98,7 +98,7 @@ type Type =
 ### StructureOfArrays
 ```ts
 type ValueOfContainer<T extends Container> =
-  T extends DynamicTypedArray<any> ? number
+  T extends DynamicTypedArray<TypedArrayConstructor> ? number
 : T extends boolean[] ? boolean
 : T extends string[] ? string
 : never
@@ -179,7 +179,7 @@ class StructureOfArrays<T extends Stucture> {
 ### StructureOfSparseMaps<T extends Structure>
 ```ts
 type ValueOfContainer<T extends Container> =
-  T extends TypedSparseMap<any> ? number
+  T extends TypedSparseMap<TypedArrayConstructor> ? number
 : T extends SparseMap<boolean> ? boolean
 : T extends SparseMap<string> ? string
 : never
