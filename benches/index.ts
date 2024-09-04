@@ -1,5 +1,5 @@
 import { go } from '@blackglory/go'
-import { StructureOfArrays, StructureOfSparseMaps, uint16, uint32 } from '../src/index.js'
+import { StructureOfArrays, StructureOfSparseMaps, uint16, uint32 } from '../lib/index.js'
 import { Benchmark } from 'extra-benchmark'
 
 const benchmark = new Benchmark('SoA', {
