@@ -1,6 +1,6 @@
 import { go, assert, isntEmptyArray, isArray } from '@blackglory/prelude'
 import { take, toArray } from 'iterable-operator'
-import { DynamicTypedArray, BitSet, SparseSet } from '@blackglory/structures'
+import { DynamicTypedArray, SparseSet } from '@blackglory/structures'
 import {
   Value
 , PrimitiveOfType
@@ -20,7 +20,7 @@ export class StructureOfArrays<T extends Structure> {
 
   private _length: number = 0
   private keyToContainer: StructureContainers<T>
-  private usedIndexes = new BitSet()
+  private usedIndexes = new SparseSet()
   private recycledIndexes = new SparseSet()
   private defaultValues: MapTypesOfStructureToPrimitives<T>
 
