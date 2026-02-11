@@ -1,6 +1,6 @@
 import { go, assert, isntEmptyArray, isArray } from '@blackglory/prelude'
 import { take, toArray } from 'iterable-operator'
-import { DynamicTypedArray, SparseSet } from '@blackglory/structures'
+import { DynamicTypedArray, SparseSet, clearArray } from '@blackglory/structures'
 import {
   Value
 , PrimitiveOfType
@@ -269,7 +269,7 @@ export class StructureOfArrays<T extends Structure> {
     for (const key of this.keys) {
       const container = this.keyToContainer[key]
       if (isArray(container)) {
-        container.length === 0
+        clearArray(container)
       } else {
         container.clear()
       }
