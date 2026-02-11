@@ -207,10 +207,6 @@ export class StructureOfArrays<T extends Structure> {
     index: number
   , structure: MapTypesOfStructureToPrimitives<T> = this.defaultValues
   ): void {
-    if (index >= this.length) {
-      this._length = index + 1
-    }
-
     for (const key of this.keys) {
       const value = structure[key]
       const container: Container = this.keyToContainer[key]
@@ -219,6 +215,10 @@ export class StructureOfArrays<T extends Structure> {
 
     this.usedIndexes.add(index)
     this.recycledIndexes.delete(index)
+
+    if (index >= this.length) {
+      this._length = index + 1
+    }
   }
 
   /**
