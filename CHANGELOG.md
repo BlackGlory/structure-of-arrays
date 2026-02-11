@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.3](https://github.com/BlackGlory/structure-of-arrays/compare/v0.9.2...v0.9.3) (2026-02-11)
+
+
+### Bug Fixes
+
+* **structure-of-arrays:** clear the array correctly ([9e070e0](https://github.com/BlackGlory/structure-of-arrays/commit/9e070e0b00b1e406444a6bb850083f26014eebb7))
+* **structure-of-sparse-maps:** update the index generator after calling `upsert()` ([1d2f88e](https://github.com/BlackGlory/structure-of-arrays/commit/1d2f88e4022938761927b4ac59b5ef06922b0506))
+
 ### [0.9.2](https://github.com/BlackGlory/structure-of-arrays/compare/v0.9.1...v0.9.2) (2024-09-04)
 
 ### [0.9.1](https://github.com/BlackGlory/structure-of-arrays/compare/v0.9.0...v0.9.1) (2024-09-04)
