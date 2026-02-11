@@ -17,7 +17,7 @@ export class StructureOfSparseMaps<T extends Structure> {
   readonly arrays: MapTypesOfStructureToInternalArrays<T>
   readonly keys: string[]
 
-  private length: number = 0
+  private nextIndex: number = 0
   private keyToContainer: StructureContainers<T>
   private usedIndexes = new SparseSet()
   private recycledIndexes = new SparseSet()
@@ -149,12 +149,14 @@ export class StructureOfSparseMaps<T extends Structure> {
       return recycledIndexes
     } else {
       const pushedIndexes: number[] = []
+
       for (const structure of remainingStuctures) {
-        const index = this.length++
+        const index = this.nextIndex++
 
         for (const key of this.keys) {
           const value = structure[key]
           const container: Container = this.keyToContainer[key]
+
           set(container, index, value)
         }
 
@@ -176,11 +178,17 @@ export class StructureOfSparseMaps<T extends Structure> {
     for (const key of this.keys) {
       const value = structure[key]
       const container: Container = this.keyToContainer[key]
+
       set(container, index, value)
     }
 
     this.usedIndexes.add(index)
     this.recycledIndexes.delete(index)
+
+    // 在必要时更新nextIndex的值以防止重复使用该索引.
+    if (index >= this.nextIndex) {
+      this.nextIndex = index + 1
+    }
   }
 
   /**
