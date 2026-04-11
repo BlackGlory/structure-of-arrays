@@ -13,12 +13,12 @@ export function create<T extends Type>(
 ): ContainerOfType<T> {
   switch (constructor) {
     case string:
-    case boolean:
-      return [] as unknown as ContainerOfType<T>
-    default:
+    case boolean: return [] as unknown as ContainerOfType<T>
+    default: {
       return new DynamicTypedArray(
         constructor as TypedArrayConstructor
       ) as ContainerOfType<T>
+    }
   }
 }
 

@@ -12,12 +12,12 @@ export function create<T extends Type>(
 ): ContainerOfType<T> {
   switch (constructor) {
     case string:
-    case boolean:
-      return new SparseMap() as ContainerOfType<T>
-    default:
+    case boolean: return new SparseMap() as ContainerOfType<T>
+    default: {
       return new TypedSparseMap(
         new DynamicTypedArray(constructor as TypedArrayConstructor)
       ) as ContainerOfType<T>
+    }
   }
 }
 

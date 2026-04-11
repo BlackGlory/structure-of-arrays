@@ -38,13 +38,9 @@ function createDefaultValueOfType<T extends Type>(type: T): PrimitiveOfType<T> {
     case int32:
     case uint32:
     case float32:
-    case float64:
-      return 0 as PrimitiveOfType<T>
-    case boolean:
-      return false as PrimitiveOfType<T>
-    case string:
-      return '' as PrimitiveOfType<T>
-    default:
-      throw new Error('Invalid type')
+    case float64: return 0 as PrimitiveOfType<T>
+    case boolean: return false as PrimitiveOfType<T>
+    case string: return '' as PrimitiveOfType<T>
+    default: throw new Error('Invalid type')
   }
 }
