@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/BlackGlory/structure-of-arrays/compare/v0.9.3...v0.10.0) (2026-10-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* - Rewrote everything.
+- Node.js v18 => Node.js v22
+- ES2018 => ES2024
+
+### Features
+
+* rewrite ([e4d9726](https://github.com/BlackGlory/structure-of-arrays/commit/e4d972676effd8f2b1896cc92ed7549ab7c121c6))
+
 ### [0.9.3](https://github.com/BlackGlory/structure-of-arrays/compare/v0.9.2...v0.9.3) (2026-02-11)
 
 
