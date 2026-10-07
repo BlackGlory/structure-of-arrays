@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.1](https://github.com/BlackGlory/structure-of-arrays/compare/v0.10.0...v0.10.1) (2026-10-07)
+
+
+### Features
+
+* **structure-of-sparse-maps, structure-of-resizable-sparse-maps:** add `keys()` ([a151e4f](https://github.com/BlackGlory/structure-of-arrays/commit/a151e4fe5ffb1ca00d19d22458bbdf6043ae8043))
+
 ## [0.10.0](https://github.com/BlackGlory/structure-of-arrays/compare/v0.9.3...v0.10.0) (2026-10-07)
 
 
