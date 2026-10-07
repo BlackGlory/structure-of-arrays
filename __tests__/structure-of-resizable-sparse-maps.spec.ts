@@ -1,5 +1,6 @@
 import { describe, test, expect } from 'vitest'
 import { StructureOfResizableSparseMaps } from '@src/structure-of-resizable-sparse-maps.js'
+import { toArray } from '@blackglory/prelude'
 
 describe('StructureOfResizableSparseMaps', () => {
   test('constructor', () => {
@@ -21,6 +22,26 @@ describe('StructureOfResizableSparseMaps', () => {
     expect(foo.length).toBe(1)
     expect(bar).toBeInstanceOf(Float64Array)
     expect(bar.length).toBe(1)
+  })
+
+  test('keys', () => {
+    const soa = new StructureOfResizableSparseMaps({
+      structure: {
+        foo: Float32Array
+      , bar: Float64Array
+      }
+    , keys: Uint8Array
+    , maxCapacity: 100
+    })
+    soa.register(129) // [129]
+    soa.register(128) // [129, 128]
+    soa.register(127) // [129, 128, 127]
+    soa.unregister(128) // [192, 127]
+    soa.register(128) // [129, 127, 128]
+
+    const result = toArray(soa.keys())
+
+    expect(result).toStrictEqual([129, 127, 128])
   })
 
   test('register', () => {

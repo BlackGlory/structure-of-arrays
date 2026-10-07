@@ -71,6 +71,10 @@ export class StructureOfSparseMaps<T extends Structure> {
     this.arrays = nameToTypedArray as TypedArraysOfStructure<T>
   }
 
+  keys(): IterableIterator<number> {
+    return this.firstContainer.keys()
+  }
+
   getIndexByKey(key: number): number | undefined {
     return this.firstContainer.getInternalIndexOfKey(key)
   }

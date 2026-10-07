@@ -89,6 +89,8 @@ class StructureOfSparseMaps<T extends Structure> {
 
   constructor(options: IStructureOfSparseMapsOptions<T>)
 
+  keys(): IterableIterator<number>
+
   getIndexByKey(key: number): number | undefined
 
   register(key: number): void
@@ -114,6 +116,8 @@ class StructureOfResizableSparseMaps<T extends Structure> {
   get length(): number
 
   constructor(options: IStructureOfResizableSparseMapsOptions<T>)
+
+  keys(): IterableIterator<number>
 
   getIndexByKey(key: number): number | undefined
 
