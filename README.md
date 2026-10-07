@@ -10,13 +10,6 @@ yarn add structure-of-arrays
 ```ts
 import { StructureOfArrays } from 'structure-of-arrays'
 
-const structure = {
-  x: float64
-, y: float64
-, vx: float64
-, vy: float64
-}
-
 const MovableSoA = new StructureOfArrays({
   structure: {
     x: Float64Array
