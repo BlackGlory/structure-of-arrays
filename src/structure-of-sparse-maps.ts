@@ -1,5 +1,5 @@
 import { assert, isntEmptyArray } from '@blackglory/prelude'
-import { TypedCleanSparseMap } from '@blackglory/structures'
+import { TypedCleanSparseMapLite } from '@blackglory/structures'
 import { UnsignedTypedArrayConstructor, TypedArrayConstructor, NonEmptyArray, TypedArray } from 'justypes'
 import { TypedArraysOfStructure, Structure } from './types.js'
 import { fromEntries } from 'extra-utils'
@@ -15,13 +15,13 @@ export class StructureOfSparseMaps<T extends Structure> {
   readonly capacity: number
 
   private containers: NonEmptyArray<
-    TypedCleanSparseMap<
+    TypedCleanSparseMapLite<
       UnsignedTypedArrayConstructor
     , TypedArrayConstructor
     >
   >
 
-  private firstContainer: TypedCleanSparseMap<
+  private firstContainer: TypedCleanSparseMapLite<
     UnsignedTypedArrayConstructor
   , TypedArrayConstructor
   >
@@ -42,13 +42,13 @@ export class StructureOfSparseMaps<T extends Structure> {
 
     const nameToSparseMap: Record<
       string
-    , TypedCleanSparseMap<
+    , TypedCleanSparseMapLite<
         UnsignedTypedArrayConstructor
       , TypedArrayConstructor
       >
     > = fromEntries(
       structureEntries.map(([name, valuesConstructor]) => {
-        const map = new TypedCleanSparseMap(
+        const map = new TypedCleanSparseMapLite(
           new options.keys(capacity)
         , new valuesConstructor(capacity)
         )
@@ -57,7 +57,7 @@ export class StructureOfSparseMaps<T extends Structure> {
     )
     const containers = Object.values(nameToSparseMap)
     this.containers = containers as NonEmptyArray<
-      TypedCleanSparseMap<
+      TypedCleanSparseMapLite<
         UnsignedTypedArrayConstructor
       , TypedArrayConstructor
       >
