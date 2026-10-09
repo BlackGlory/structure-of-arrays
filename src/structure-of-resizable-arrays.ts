@@ -16,10 +16,11 @@ export class StructureOfResizableArrays<T extends Structure> {
   readonly arrays: TypedArraysOfStructure<T>
   readonly maxCapacity: number
 
-  private _containers: NonEmptyArray<ResizableTypedArray<TypedArrayConstructor>>
+  private containers: NonEmptyArray<ResizableTypedArray<TypedArrayConstructor>>
+  private firstContainer: ResizableTypedArray<TypedArrayConstructor>
 
   get length(): number {
-    return this._containers[0].length
+    return this.firstContainer.length
   }
 
   constructor(options: IStructureOfResizableArraysOptions<T>) {
@@ -46,7 +47,11 @@ export class StructureOfResizableArrays<T extends Structure> {
       })
     )
 
-    this._containers = Object.values(nameToResizableTypedArray) as NonEmptyArray<ResizableTypedArray<TypedArrayConstructor>>
+    const containers = Object.values(nameToResizableTypedArray)
+    this.containers = containers as NonEmptyArray<
+      ResizableTypedArray<TypedArrayConstructor>
+    >
+    this.firstContainer = containers[0]
 
     const nameToTypedArray: Record<string, TypedArray> = fromEntries(
       Object.entries(nameToResizableTypedArray)
@@ -56,8 +61,8 @@ export class StructureOfResizableArrays<T extends Structure> {
   }
 
   ensure(index: number): void {
-    if (index >= this._containers[0].capacity) {
-      this._containers.forEach(container => container.set(index, 0))
+    if (index >= this.firstContainer.capacity) {
+      this.containers.forEach(container => container.set(index, 0))
     }
   }
 }

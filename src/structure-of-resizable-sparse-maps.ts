@@ -29,7 +29,7 @@ export class StructureOfResizableSparseMaps<T extends Structure> {
   >
 
   get length(): number {
-    return this.containers[0].size
+    return this.firstContainer.size
   }
 
   constructor(options: IStructureOfResizableSparseMapsOptions<T>) {

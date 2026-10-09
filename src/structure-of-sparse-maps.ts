@@ -20,14 +20,13 @@ export class StructureOfSparseMaps<T extends Structure> {
     , TypedArrayConstructor
     >
   >
-
   private firstContainer: TypedCleanSparseMapLite<
     UnsignedTypedArrayConstructor
   , TypedArrayConstructor
   >
 
   get length(): number {
-    return this.containers[0].size
+    return this.firstContainer.size
   }
 
   constructor(options: IStructureOfSparseMapsOptions<T>) {
